@@ -24,3 +24,26 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.ps-card {
+  background: var(--ion-color-medium);
+  border-radius: 0.5rem;
+  margin: 2rem;
+}
+
+.ps-header {
+  border-bottom: 1px solid black;
+  padding: 1rem;
+}
+
+.ps-body {
+  padding: 1rem;
+}
+
+.row {
+  display: flex;
+}
+
+.col-50 {
+  width: 50%;
+}
