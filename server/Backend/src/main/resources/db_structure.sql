@@ -1,3 +1,11 @@
+/* structure */
+
+drop database partyspot;
+
+create database partyspot;
+
+use partyspot;
+
 create table userrole (
 id binary(16) unique not null,
 name varchar(50), 
@@ -48,7 +56,14 @@ FOREIGN KEY (song_id) REFERENCES song (id)
 create table user__song(
 user_id binary(16),
 song_id binary(16),
-voting integer
+voting integer,
 FOREIGN KEY (user_id) REFERENCES puser (id),
 FOREIGN KEY (song_id) REFERENCES song (id)
 );
+
+
+/* userrole: Data */
+
+insert into userrole (id, name) values (uuid_to_bin('00000000-0000-0000-0000-000000000000'), 'developer');
+insert into userrole (id, name) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), 'host');
+insert into userrole (id, name) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), 'guest');
