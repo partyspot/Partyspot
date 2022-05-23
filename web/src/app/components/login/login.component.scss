@@ -42,8 +42,7 @@ input {
 
 h1 {
   margin-bottom: 0px;
-  //same color as logo
-  color: #1ED760;
+  color: var(--ion-color-primary);
 }
 
 .btn-container {

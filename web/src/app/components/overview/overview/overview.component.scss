@@ -15,4 +15,11 @@
 
 .menu-container {
   padding-right: 1rem;
+  display: flex;
+}
+
+.fas {
+  font-size: 2rem;
+  margin: auto 0;
+  color: var(--ion-color-primary);
 }
