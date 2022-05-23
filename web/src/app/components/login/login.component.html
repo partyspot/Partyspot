@@ -1,29 +1,32 @@
 <div class="login">
-  <div class="logo-container">
-    <div class="headline">Partyspot</div>
-    <img class="logo" src="/assets/img/logo.png">
+  <div class="logo-container" style="padding-top: 2rem">
+    <div class="headline col-50">Partyspot</div>
+    <img class="logo col-50" src="/assets/img/logo.png">
   </div>
   <div class="ps-body">
     <div class="row">
 
-      <div class="col-50" style="border-right: 1px solid var(--ion-color-light)">
-        <h1>Login für Gastgeber</h1>
-        <div class="form">
+      <div class="col-50">
+        <div class="input-container" style="border-right: 1px solid var(--ion-color-light); padding-right: 1rem;">
+          <h1>Login für Gastgeber</h1>
           <div class="form-header">Benutzername</div>
           <input type="text">
           <div class="form-header">Passwort</div>
-          <input type="text">
+          <input type="password">
         </div>
       </div>
 
       <div class="col-50">
-        <h1>Login für Gäste</h1>
-        <div class="form">
+        <div class="input-container" style="padding-left: 1rem;">
+          <h1>Login für Gäste</h1>
           <div class="form-header">Zugangscode</div>
           <input type="text">
         </div>
       </div>
 
     </div>
+  </div>
+  <div class="btn-container">
+    <button class="btn-primary" (click)="login()">Einloggen</button>
   </div>
 </div>
