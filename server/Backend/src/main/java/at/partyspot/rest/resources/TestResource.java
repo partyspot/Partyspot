@@ -7,18 +7,17 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-@Path("/testpath/")
+@Path("/testpath")
 public class TestResource {
 	
 	@Context
     private UriInfo context;
  
-    /** Creates a new instance of HelloWorld */
     public TestResource() {
     }
 	
     
-	@Path("/testfunction/")
+	@Path("testfunction")
 	@GET
 	@Produces("text/plain")
 	public Response getTestString() {
