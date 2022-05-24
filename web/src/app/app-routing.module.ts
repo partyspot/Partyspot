@@ -6,7 +6,11 @@ import { OverviewComponent } from './components/overview/overview/overview.compo
 const routes: Routes = [
   {
     path: ''
+  },  {
+    path: 'modal',
+    loadChildren: () => import('./modals/modal/modal.module').then( m => m.ModalPageModule)
   }
+
 ];
 @NgModule({
   imports: [
