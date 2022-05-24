@@ -1,1 +1,3 @@
 .classpath
+server/Backend/.classpath
+server/Backend/.settings/org.eclipse.wst.common.component
