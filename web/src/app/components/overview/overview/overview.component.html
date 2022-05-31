@@ -1,16 +1,19 @@
 <div class="nav">
   <img class="logo" src="/assets/img/logo.png">
-  <div class="spacer">Hier könnte Ihre Werbung stehen!</div>
+  <div class="spacer">
+    <div class="main-header">Partyspot</div>
+  </div>
   <div class="menu-container">
-    <i class="fas fa-image"></i>
-    <i class="fas fa-image"></i>
-    <i class="fas fa-image" (click)="showModal()" style="cursor: pointer"></i>
-    <i class="fas fa-sign-out-alt" style="color: var(--ion-color-danger); padding-right: 0px"></i>
+    <i class="fas fa-music" (click)="showModal()" title="Neue Party erstellen"></i>
+    <i class="fas fa-user-edit" title="Gäste einladen"></i>
+    <i class="fas fa-users" title="Gästeübersicht"></i>
+    <i class="fas fa-sign-out-alt" style="color: var(--ion-color-danger); padding-right: 0px" (click)="logout()"
+      title="Ausloggen"></i>
   </div>
 </div>
 
 <div class="ps-card">
-  <h1>?Partyname?</h1>
+  <div class="party-name">Meine Mega Fette Party (Partytitel)</div>
   <div class="ps-body">
     Hier dann Übersicht
   </div>
