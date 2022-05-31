@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Song extends NamedBaseEntity {
 	
-	private String spoifyUri;
+	private String spotifyUri;
 	private String genre;
 	
 	@OneToMany(mappedBy = "song")
@@ -17,11 +17,11 @@ public class Song extends NamedBaseEntity {
 	@OneToMany(mappedBy = "song")
     Set<UserSong> userSong;
 	
-	public String getSpoifyUri() {
-		return spoifyUri;
+	public String getSpotifyUri() {
+		return spotifyUri;
 	}
-	public void setSpoifyUri(String spoifyUri) {
-		this.spoifyUri = spoifyUri;
+	public void setSpotifyUri(String spoifyUri) {
+		this.spotifyUri = spoifyUri;
 	}
 	public String getGenre() {
 		return genre;

@@ -13,6 +13,6 @@ public class Playlist extends NamedBaseEntity {
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID partyId;
 	
-	@OneToMany(mappedBy = "course")
+	@OneToMany(mappedBy = "playlist")
     Set<SongPlaylist> songPlaylist;
 }
