@@ -30,10 +30,10 @@ FOREIGN KEY (party_id) REFERENCES party(id)
 create table puser (
 id binary(16) unique not null,
 name varchar(100),
-role_id binary(16),
+userrole_id binary(16),
 party_id binary(16),
 PRIMARY KEY (id),
-FOREIGN KEY (role_id) REFERENCES userrole(id),
+FOREIGN KEY (userrole_id) REFERENCES userrole(id),
 FOREIGN KEY (party_id) REFERENCES party(id)
 );
 
