@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from 'src/app/modals/modal/modal.page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -9,7 +10,7 @@ import { ModalPage } from 'src/app/modals/modal/modal.page';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor(public modalCtrl: ModalController) { }
+  constructor(public modalCtrl: ModalController, private router: Router) { }
 
   ngOnInit() { }
 
@@ -18,6 +19,10 @@ export class OverviewComponent implements OnInit {
       component: ModalPage
     });
     return await modal.present();
+  }
+
+  logout(): void {
+    this.router.navigate(['/login']);
   }
 
 }
