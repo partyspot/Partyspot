@@ -18,8 +18,6 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 // either returns an existing saved token or requests a new token using the user credentials for the token-code
 public class SpotifyAPITokenManager {
 	
-	@Inject
-	PartyService partyService;
 	
 	private static final String clientId = "d303cca7130840ecb1fa1d1268e2feea";
 	  private static final String clientSecret = "6de17e8306974b32b09f7f194a63f8cb";
@@ -59,11 +57,12 @@ public class SpotifyAPITokenManager {
 			return "AuthorizationToken could not be retrieved";
 		  }
 	
-	public static boolean checkCredentialsAndCreateParty(String username, String pw) {
+	public static boolean checkCredentialsAndCreateParty(String username, String pw, String partyName) throws Exception {
 		// probably extract code for token from URI
 		String tokenCode = authorizationCodeUri_Sync();
 		String accessToken = authorizationCode_Sync(tokenCode);
 		// create party with accessToken
+		PartyService.createParty(accessToken, partyName);
 		return true;
 	}
 
