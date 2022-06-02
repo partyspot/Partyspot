@@ -29,7 +29,7 @@ $nth: nth($list, $imgKey);
 }
 
 .fas {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: auto 0;
   color: var(--ion-color-primary);
   padding-right: 1rem;
@@ -39,7 +39,7 @@ $nth: nth($list, $imgKey);
 /* overwrite global ps-card styling and include the random background */
 .ps-card {
   height: calc(100vh - 128px);
-  margin-left: 3rem;
+  margin-left: 2rem;
   background-image: url("/assets/img/#{$nth}.jpg");
   background-size: cover;
 }
@@ -47,7 +47,7 @@ $nth: nth($list, $imgKey);
 /* partyname headline with outline to
    guarantee readability on various backgrounds */
 .party-name {
-  font-size: 60px;
+  font-size: 3rem;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: black;
   text-shadow: 3px 3px black;
@@ -56,6 +56,6 @@ $nth: nth($list, $imgKey);
 }
 
 .main-header {
-  font-size: 36px;
+  font-size: 2rem;
   color: var(--ion-color-primary);
 }
