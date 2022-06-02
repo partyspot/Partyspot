@@ -1,7 +1,5 @@
 package at.partyspot.db.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
