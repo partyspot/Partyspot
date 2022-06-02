@@ -12,6 +12,7 @@ export class ModalPage implements OnInit {
 
   ngOnInit() {
   }
+
   dismiss() {
     this.modalCtrl.dismiss();
   }
