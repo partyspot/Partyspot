@@ -120,7 +120,7 @@ public class DatabaseService {
 		DatabaseService ds = new DatabaseService();
 		Connection conn = ds.createConnection();
 		Statement statement = conn.createStatement();
-		String sql = "select * from " + table.toString() + "where name = " + name;
+		String sql = "select * from " + table.toString() + " where name = '" + name + "'";
 		// Result set get the result of the SQL query
 		ResultSet resultSet = statement.executeQuery(sql);
 		return resultSet;

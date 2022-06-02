@@ -31,7 +31,7 @@ public class TestResource {
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		//UUID id = UUID.fromString("00000000-0000-0000-0000-000000000001");
-		List<User> users = userService.getAll();
+		User user = userService.getUser("testuser");
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
 	}

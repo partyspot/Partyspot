@@ -16,6 +16,7 @@ create table party (
 id binary(16) unique not null,
 name varchar(100),
 code varchar(10),
+token varchar(1000),
 primary key (id)
 );
 
