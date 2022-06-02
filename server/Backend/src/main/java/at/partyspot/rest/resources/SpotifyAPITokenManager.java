@@ -4,7 +4,7 @@ package at.partyspot.rest.resources;
 // either returns an existing saved token or requests a new token using the user credentials for the token-code
 public class SpotifyAPITokenManager {
 	
-	public boolean checkCredentials(String credentials) {
+	public static boolean checkCredentials(String credentials) {
 		
 		// save token before returning
 		return true;
