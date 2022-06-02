@@ -9,6 +9,14 @@ const routes: Routes = [
   },  {
     path: 'modal',
     loadChildren: () => import('./modals/modal/modal.module').then( m => m.ModalPageModule)
+  },
+  {
+    path: 'guest-modal',
+    loadChildren: () => import('./modals/guest-modal/guest-modal.module').then( m => m.GuestModalPageModule)
+  },
+  {
+    path: 'guest-view-modal',
+    loadChildren: () => import('./modals/guest-view-modal/guest-view-modal.module').then( m => m.GuestViewModalPageModule)
   }
 
 ];
