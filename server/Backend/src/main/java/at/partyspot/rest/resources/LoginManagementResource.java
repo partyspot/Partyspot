@@ -20,7 +20,7 @@ public class LoginManagementResource {
 	@Consumes("text/plain")
 	@Produces("text/plain")
 	public Response createNew(@QueryParam("username") String username, @QueryParam("pw") String pw) throws Exception {
-		if (SpotifyAPITokenManager.checkCredentials(username, pw)) {
+		if (SpotifyAPITokenManager.checkCredentialsAndCreateParty(username, pw)) {
 			// Services create new AdminUser and Party
 			String userCode = CodeGenerator.generateUserCode();
 			return Response.ok().entity(userCode).build();
