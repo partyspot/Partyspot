@@ -12,17 +12,20 @@ import javax.ws.rs.core.UriInfo;
 
 import at.partyspot.db.access.DatabaseService;
 import at.partyspot.db.access.PartyService;
+import at.partyspot.db.access.PlaylistService;
+import at.partyspot.db.access.SongService;
 import at.partyspot.db.access.UserService;
 import at.partyspot.db.access.UserroleService;
 import at.partyspot.db.model.Party;
+import at.partyspot.db.model.Playlist;
+import at.partyspot.db.model.Song;
 
 @Path("/testpath")
 public class TestResource {
 	
 	UserService userService = new UserService();
 	DatabaseService databaseService = new DatabaseService();
-	UserroleService userroleService = new UserroleService();
-	PartyService partyService = new PartyService();
+	SongService songService = new SongService();
 		
 	@Context
     private UriInfo context;
@@ -36,9 +39,9 @@ public class TestResource {
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-		Party party = partyService.getParty("testparty");
-		Party party1 = partyService.getParty(id);
-		List<Party> parties = partyService.getAll();
+		Song song = songService.getSong("Bla");
+		Song song2 = songService.getSong(id);
+		List<Song> songs = songService.getAll();
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
 	}
