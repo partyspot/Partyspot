@@ -7,13 +7,7 @@ import java.util.UUID;
 
 import at.partyspot.db.model.Userrole;
 
-//import at.partyspot.db.model.Userrole;
-
 public class UserroleService {
-
-	/*
-	 * public UserroleService() { super(Userrole.class); }
-	 */
 
 	public List<Userrole> getAll() throws Exception {
 		List<Userrole> userroles = new ArrayList<Userrole>();
