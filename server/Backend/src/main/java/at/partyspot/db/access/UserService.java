@@ -31,7 +31,7 @@ public class UserService extends DatabaseService {
 		User user = new User();
 		DatabaseService databaseService = new DatabaseService();
 		ResultSet resultSet = databaseService.getByName("puser", name);
-		if (resultSet.getFetchSize() > 0) {
+		if (resultSet.next()) {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			user.setId(uuid);
 			user.setName(resultSet.getString("name"));
@@ -43,7 +43,7 @@ public class UserService extends DatabaseService {
 		User user = new User();
 		DatabaseService databaseService = new DatabaseService();
 		ResultSet resultSet = databaseService.getById("puser", id);
-		if (resultSet.getFetchSize() > 0) {
+		if (resultSet.next()) {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			user.setId(uuid);
 			user.setName(resultSet.getString("name"));
