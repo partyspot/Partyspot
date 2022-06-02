@@ -15,14 +15,12 @@ public class UserService extends DatabaseService {
 		List<User> users = new ArrayList<User>();
 		DatabaseService databaseService = new DatabaseService();
 		ResultSet resultSet = databaseService.getAll("puser");
-		if (resultSet.getFetchSize() > 0) {
-			while (resultSet.next()) {
-				User user = new User();
-				UUID uuid = UUID.fromString(resultSet.getString("id"));
-				user.setId(uuid);
-				user.setName(resultSet.getString("name"));
-				users.add(user);
-			}
+		while (resultSet.next()) {
+			User user = new User();
+			UUID uuid = UUID.fromString(resultSet.getString("id"));
+			user.setId(uuid);
+			user.setName(resultSet.getString("name"));
+			users.add(user);
 		}
 		return users;
 	}
@@ -31,19 +29,19 @@ public class UserService extends DatabaseService {
 		User user = new User();
 		DatabaseService databaseService = new DatabaseService();
 		ResultSet resultSet = databaseService.getByName("puser", name);
-		if (resultSet.getFetchSize() > 0) {
+		if (resultSet.next()) {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			user.setId(uuid);
 			user.setName(resultSet.getString("name"));
 		}
 		return user;
 	}
-	
+
 	public User getUser(UUID id) throws Exception {
 		User user = new User();
 		DatabaseService databaseService = new DatabaseService();
 		ResultSet resultSet = databaseService.getById("puser", id);
-		if (resultSet.getFetchSize() > 0) {
+		if (resultSet.next()) {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			user.setId(uuid);
 			user.setName(resultSet.getString("name"));
