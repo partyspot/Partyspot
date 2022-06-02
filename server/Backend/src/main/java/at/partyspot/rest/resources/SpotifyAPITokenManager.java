@@ -33,7 +33,7 @@ public class SpotifyAPITokenManager {
 	
 	public static boolean checkCredentials(String username, String pw) {
 		// probably extract code for token from URI
-		String tokenCode = authorizationCodeUri_Sync();
+		//String tokenCode = authorizationCodeUri_Sync();
 		// save token before returning
 		return true;
 	}
