@@ -16,8 +16,8 @@ public class LoginManagementResource {
 	@Path("newHost")
 	@POST
 	@Consumes("text/plain")
-	public Response createNew(@QueryParam("credentials") String credentials) throws Exception {
-		if (SpotifyAPITokenManager.checkCredentials(credentials)) {
+	public Response createNew(@QueryParam("username") String username, @QueryParam("pw") String pw) throws Exception {
+		if (SpotifyAPITokenManager.checkCredentials(username, pw)) {
 			// Services create new AdminUser and Party
 			String userCode = CodeGenerator.generateUserCode();
 			return Response.ok().entity(userCode).build();
@@ -28,10 +28,10 @@ public class LoginManagementResource {
 	}
 	
 	
-	@Path("newUser")
+	@Path("newGuest")
 	@POST
 	@Consumes("text/plain")
-	public Response createNewUser(@QueryParam("partycode") String partycode) throws Exception {
+	public Response createNewGuest(@QueryParam("partycode") String partycode) throws Exception {
 			// Services create new User and assign to party with partycode
 			return Response.ok().entity("New user joined a party!").build();
 	}
