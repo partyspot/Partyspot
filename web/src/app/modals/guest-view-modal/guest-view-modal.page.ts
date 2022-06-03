@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.page.html',
-  styleUrls: ['./modal.page.scss'],
+  selector: 'app-guest-view-modal',
+  templateUrl: './guest-view-modal.page.html',
+  styleUrls: ['./guest-view-modal.page.scss'],
 })
-export class ModalPage implements OnInit {
+export class GuestViewModalPage implements OnInit {
 
   constructor(public modalCtrl: ModalController) { }
 
@@ -16,4 +16,4 @@ export class ModalPage implements OnInit {
   dismiss() {
     this.modalCtrl.dismiss();
   }
-}  
+}

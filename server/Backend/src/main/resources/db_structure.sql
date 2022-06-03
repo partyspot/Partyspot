@@ -16,6 +16,7 @@ create table party (
 id binary(16) unique not null,
 name varchar(100),
 code varchar(10),
+token varchar(1000),
 primary key (id)
 );
 
@@ -41,7 +42,7 @@ create table song (
 id binary(16) unique not null,
 name varchar(255),
 spotify_uri varchar(255),
-gerne varchar(100),
+genre varchar(100),
 PRIMARY KEY(id)
 );
 

@@ -1,13 +1,3 @@
-.ps-header {
-  display: flex;
-}
-
-.fa-times-circle {
-  font-size: 1.5rem;
-  color: var(--ion-color-danger);
-  margin: auto 0 auto auto;
-}
-
 .btn-container {
   text-align: center;
   padding-top: 2rem;
@@ -18,4 +8,14 @@
   text-align: initial;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
+}
+
+.ps-header {
+  display: flex;
+}
+
+.fa-times-circle {
+  font-size: 1.5rem;
+  color: var(--ion-color-danger);
+  margin: auto 0 auto auto;
 }
