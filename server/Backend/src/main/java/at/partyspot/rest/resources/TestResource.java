@@ -19,6 +19,7 @@ import at.partyspot.db.access.UserroleService;
 import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Playlist;
 import at.partyspot.db.model.Song;
+import at.partyspot.db.model.Userrole;
 
 @Path("/testpath")
 public class TestResource {
@@ -26,6 +27,7 @@ public class TestResource {
 	UserService userService = new UserService();
 	DatabaseService databaseService = new DatabaseService();
 	SongService songService = new SongService();
+	UserroleService userroleService = new UserroleService();
 		
 	@Context
     private UriInfo context;
@@ -39,9 +41,9 @@ public class TestResource {
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-		Song song = songService.getSong("Bla");
-		Song song2 = songService.getSong(id);
-		List<Song> songs = songService.getAll();
+		Userrole userrole = userroleService.getUserrole("host");
+		Userrole userrole2 = userroleService.getUserrole("00000000-0000-0000-0000-000000000000");
+		List<Userrole> userroles = userroleService.getAll();
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
 	}

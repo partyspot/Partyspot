@@ -34,5 +34,12 @@ public class Utilities {
 	public static String uuidToBin(UUID uuid) {
 		return "UUID_TO_BIN('" + uuid + "')";
 	}
+	
+	public static boolean isNetherNullNorEmpty(String toBeChecked) {
+		if(toBeChecked == null || toBeChecked.isEmpty() || toBeChecked.trim().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 
 }

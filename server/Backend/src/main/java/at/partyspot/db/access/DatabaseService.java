@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import at.partyspot.rest.resources.FileHandler;
 import at.partyspot.rest.resources.Utilities;
 
 public class DatabaseService {
@@ -17,13 +18,20 @@ public class DatabaseService {
 	private Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
-	private String dbDriver = "com.mysql.jdbc.Driver";
-	private String url = "jdbc:mysql://localhost:3306/partyspot";
-	private String dbUser = "root";
-	private String dbPass = "!Dr.Hugo8010";
+	//private String dbDriver = "com.mysql.jdbc.Driver";
+	//private String url = "jdbc:mysql://localhost:3306/partyspot";
+	//private String dbUser = "root";
+	//private String dbPass = "!Dr.Hugo8010";
 
 	public Connection createConnection() throws Exception {
 		Connection mySqlCon = null;
+		
+		HashMap<String, Object> config = FileHandler.getDBConfigData();
+		String dbDriver = config.get("driver").toString();
+		String url = config.get("url").toString();
+		String dbUser = config.get("user").toString();
+		String dbPass = config.get("password").toString();
+		
 		try {
 			// This will load the MySQL driver, each DB has its own driver
 			Class.forName(dbDriver);
@@ -82,7 +90,7 @@ public class DatabaseService {
 			if(isBinary16(columns.get(column).get(0), columns.get(column).get(1))) {
 				toBeAdded = Utilities.binToUuid(column);
 			} 
-			columnString = Utilities.addDelimited(columnString, toBeAdded, ",");
+			columnString = Utilities.addDelimited(columnString, toBeAdded, ", ");
 		}
 		
 		return columnString;
@@ -94,15 +102,33 @@ public class DatabaseService {
 		}
 		return false;
 	}
+	
+	public String buildSelect(String table, String name, UUID id) throws Exception {
+		String sql = "";
+		String columnString = buildColumnString(table);
+		sql = "select " + columnString + " from " + table.toString();
+		//String finalSql = "";
+		if(Utilities.isNetherNullNorEmpty(name) && id != null) {
+			sql = sql.concat(" where name = '" + name + "' and id = " + Utilities.uuidToBin(id));
+		} else {
+			if(Utilities.isNetherNullNorEmpty(name)) {
+				sql = sql.concat(" where name = '" + name + "'");
+			}
+			if(id != null) {
+				sql = sql.concat(" where id = " + Utilities.uuidToBin(id));
+			}
+		}
+		return sql;
+	}
 
 	public ResultSet getAll(String table) throws Exception {
 		DatabaseService ds = new DatabaseService();
 		Connection conn = ds.createConnection();
 		Statement statement = conn.createStatement();
-		String columnString = buildColumnString(table);
-		String sql = "select " + columnString + " from " + table.toString();
+		//String columnString = buildColumnString(table);
+		//String sql = "select " + columnString + " from " + table.toString();
 		// Result set get the result of the SQL query
-		ResultSet resultSet = statement.executeQuery(sql);
+		ResultSet resultSet = statement.executeQuery(buildSelect(table, null, null));
 		return resultSet;
 	}
 
@@ -110,10 +136,10 @@ public class DatabaseService {
 		DatabaseService ds = new DatabaseService();
 		Connection conn = ds.createConnection();
 		Statement statement = conn.createStatement();
-		String columnString = buildColumnString(table);
-		String sql = "select " + columnString + " from " + table.toString() + " where id = " + Utilities.uuidToBin(id);
+		//String columnString = buildColumnString(table);
+		//String sql = "select " + columnString + " from " + table.toString() + " where id = " + Utilities.uuidToBin(id);
 		// Result set get the result of the SQL query
-		ResultSet resultSet = statement.executeQuery(sql);
+		ResultSet resultSet = statement.executeQuery(buildSelect(table, null, id));
 		return resultSet;
 	}
 
@@ -121,10 +147,10 @@ public class DatabaseService {
 		DatabaseService ds = new DatabaseService();
 		Connection conn = ds.createConnection();
 		Statement statement = conn.createStatement();
-		String columnString = buildColumnString(table);
-		String sql = "select " + columnString + " from " + table.toString() + " where name = '" + name + "'";
+		//String columnString = buildColumnString(table);
+		//String sql = "select " + columnString + " from " + table.toString() + " where name = '" + name + "'";
 		// Result set get the result of the SQL query
-		ResultSet resultSet = statement.executeQuery(sql);
+		ResultSet resultSet = statement.executeQuery(buildSelect(table, name, null));
 		return resultSet;
 	}
 }
