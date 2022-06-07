@@ -3,13 +3,6 @@
   padding-top: 2rem;
 }
 
-.form-header {
-  font-size: x-large;
-  text-align: initial;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-}
-
 .ps-header {
   display: flex;
 }
@@ -18,4 +11,8 @@
   font-size: 1.5rem;
   color: var(--ion-color-danger);
   margin: auto 0 auto auto;
+}
+
+input {
+  max-width: inherit;
 }

@@ -22,8 +22,4 @@ export class GuestModalPageModule {
   @ViewChild('mail')
   mail: ElementRef;
 
-  inviteGuest(): void {
-    console.log(this.mail.nativeElement.value);
-  }
-
 }
