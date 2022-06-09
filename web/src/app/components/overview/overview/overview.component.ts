@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class OverviewComponent implements OnInit {
 
+  isAdmin = true;
+
   constructor(public modalCtrl: ModalController, private router: Router) { }
 
   ngOnInit() { }

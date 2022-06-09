@@ -4,14 +4,15 @@
     <!-- will be removed  if Headline doesn't fit on mobile -->
     <div class="main-header">Partyspot</div>
   </div>
-  <div class="menu-container">
+  <div *ngIf="isAdmin" style="display: flex">
     <i class="fas fa-music" (click)="showModal()" title="Party bearbeiten"></i>
-    <!-- might get implemented in the future
-    <i class="fas fa-user-edit" (click)="showGuestModal()" title="Gäste einladen"></i> -->
     <i class="fas fa-users" (click)="showGuestViewModal()" title="Gästeübersicht"></i>
-    <i class="fas fa-sign-out-alt" style="color: var(--ion-color-danger); padding-right: 0px" (click)="logout()"
-      title="Ausloggen"></i>
+    <!-- might get implemented in the future
+        function to invite guests with an automated e-mail
+    <i class="fas fa-user-edit" (click)="showGuestModal()" title="Gäste einladen"></i> -->
   </div>
+  <i class="fas fa-sign-out-alt" style="color: var(--ion-color-danger); padding-right: 1rem" (click)="logout()"
+    title="Ausloggen"></i>
 </div>
 
 <div class="ps-card">

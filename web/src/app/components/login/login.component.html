@@ -5,28 +5,30 @@
   </div>
   <div class="ps-body">
     <div class="row">
-
       <div class="col-50">
         <div class="input-container" style="border-right: 1px solid var(--ion-color-light); padding-right: 1rem;">
           <h1>Login für Gastgeber</h1>
+          <!--
           <div class="form-header">Benutzername</div>
           <input type="text" id="username" name="username" #username>
           <div class="form-header">Passwort</div>
           <input type="password" id="password" name="password" #password>
+        -->
+          <div class="btn-container">
+            <button class="btn-primary" (click)="redirectToSpotify()">Mit Spotify einloggen</button>
+          </div>
         </div>
       </div>
-
       <div class="col-50">
         <div class="input-container" style="padding-left: 1rem;">
           <h1>Login für Gäste</h1>
           <div class="form-header">Zugangscode</div>
           <input type="text" id="guestCode" name="guestCode" #guestCode>
         </div>
+        <div class="btn-container">
+          <button class="btn-primary" (click)="guestLogin()">Einloggen</button>
+        </div>
       </div>
-
     </div>
-  </div>
-  <div class="btn-container">
-    <button class="btn-primary" (click)="login()">Einloggen</button>
   </div>
 </div>

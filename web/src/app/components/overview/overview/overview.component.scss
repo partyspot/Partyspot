@@ -23,9 +23,12 @@ $nth: nth($list, $imgKey);
   margin: auto;
 }
 
-.menu-container {
-  padding-right: 1rem;
+.showAdmin {
   display: flex;
+}
+
+.hideAdmin {
+  display: none;
 }
 
 .fas {

@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  @ViewChild('username')
+  /*@ViewChild('username')
   username: ElementRef;
 
   @ViewChild('password')
-  password: ElementRef;
+  password: ElementRef; */
 
   @ViewChild('guestCode')
   guestCode: ElementRef;
@@ -22,9 +22,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
-  login(): void {
-    console.log(this.username.nativeElement.value);
-    console.log(this.password.nativeElement.value);
+  redirectToSpotify(): void {
+    console.log("going to spotify")
+  }
+
+  guestLogin(): void {
     console.log(this.guestCode.nativeElement.value);
     this.router.navigate(['/overview']);
   }
