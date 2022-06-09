@@ -20,6 +20,7 @@ import at.partyspot.db.access.UserroleService;
 import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Playlist;
 import at.partyspot.db.model.Song;
+import at.partyspot.db.model.User;
 import at.partyspot.db.model.Userrole;
 
 @Path("/testpath")
@@ -30,17 +31,17 @@ public class TestResource {
 	SongService songService = new SongService();
 	
 	@EJB
-	PartyService partyService;
+	PlaylistService playlistService;
 		   
 	@Path("testfunction")
 	@GET
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-		//Party party = partyService.getParty("testparty");
-		//Party party2 = partyService.getParty(UUID.fromString("00000000-0000-0000-0000-000000000000"));
-		//List<Party> parties = partyService.getAll();
-		partyService.createParty("einName", null, "einToken");
+		Playlist obj1 = playlistService.getPlaylist("testplaylist");
+		Playlist obj2 = playlistService.getPlaylist(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+		List<Playlist> list1 = playlistService.getAll();
+		//partyService.createParty("einName", null, "einToken");
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
 	}
