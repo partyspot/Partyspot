@@ -1,5 +1,6 @@
 package at.partyspot.rest.resources;
 
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,13 +15,16 @@ import at.partyspot.Generators.CodeGenerator;
 @Path("/login")
 public class LoginManagementResource {
 	
+	@EJB
+	SpotifyAPITokenManager spotifyAPITokenManager;
 	
-	@Path("newHost")
+	// retrieving the code from the redirectURI from frontend and calling function createNew
+	@Path("newPartyAndNewHost")
 	@GET
 	@Consumes("text/plain")
 	@Produces("text/plain")
-	public Response createNew(@QueryParam("username") String username, @QueryParam("pw") String pw, @QueryParam("partyname") String partyname) throws Exception {
-		if (SpotifyAPITokenManager.checkCredentialsAndCreateParty(username, pw, partyname)) {
+	public Response createNew(@QueryParam("code") String code) throws Exception {
+		if (spotifyAPITokenManager.createPartyAndNewAdminUser(code)) {
 			// Services create new AdminUser and Party
 			String userCode = CodeGenerator.generateUserCode();
 			return Response.ok().entity(userCode).build();
@@ -28,6 +32,16 @@ public class LoginManagementResource {
 			return Response.serverError().build();
 		}
 		
+	}
+	
+	// one function for returning the redirectURI for the frontend to route the adminuser to
+	@Path("loginWithSpotify")
+	@GET
+	@Produces("text/plain")
+	public Response getSpotifyLoginURI() throws Exception {
+		String redirectURI = spotifyAPITokenManager.authorizationCodeUri_Sync();
+		
+		return Response.ok().entity(redirectURI).build();
 	}
 	
 	

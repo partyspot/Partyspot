@@ -13,10 +13,10 @@ export class RestService {
     constructor(private http: HttpClient) { }
 
     async adminLogin() {
-        let partycode = '';
-        this.http.get("http:/localhost:8080/Backend/rest/login/newHost", this.options).toPromise().then(res => {
-            partycode = res;
-            return partycode;
+        let redirectURI = '';
+        this.http.get("http:/localhost:8080/Backend/rest/login/loginWithSpotify", this.options).toPromise().then(res => {
+            redirectURI = res;
+            return redirectURI;
         })
     }
 

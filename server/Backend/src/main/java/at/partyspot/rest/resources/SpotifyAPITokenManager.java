@@ -3,7 +3,8 @@ package at.partyspot.rest.resources;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import org.apache.hc.core5.http.ParseException;
 
@@ -16,7 +17,11 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 
 // handles requests for the Token (needed for SpotifyAPI requests)
 // either returns an existing saved token or requests a new token using the user credentials for the token-code
+@Stateless
 public class SpotifyAPITokenManager {
+	
+	@EJB
+	PartyService partyService;
 	
 	
 	private static final String clientId = "d303cca7130840ecb1fa1d1268e2feea";
@@ -34,13 +39,13 @@ public class SpotifyAPITokenManager {
 //	          .show_dialog(true)
 	    .build();
 
-	  public static String authorizationCodeUri_Sync() {
+	  public String authorizationCodeUri_Sync() {
 	    final URI uri = authorizationCodeUriRequest.execute();
 
 	    return "URI: " + uri.toString();
 	  }
 	  
-	  public static String authorizationCode_Sync(String code) {
+	  public String authorizationCode_Sync(String code) {
 		    try {
 		      final AuthorizationCodeCredentials authorizationCodeCredentials = spotifyApi.authorizationCode(code)
 		    		    .build().execute();
@@ -57,12 +62,12 @@ public class SpotifyAPITokenManager {
 			return "AuthorizationToken could not be retrieved";
 		  }
 	
-	public static boolean checkCredentialsAndCreateParty(String username, String pw, String partyName) throws Exception {
-		// probably extract code for token from URI
-		String tokenCode = authorizationCodeUri_Sync();
-		String accessToken = authorizationCode_Sync(tokenCode);
+	public boolean createPartyAndNewAdminUser(String code) throws Exception {
+		// using extracted code from URI the frontend was routed to
+		String accessToken = authorizationCode_Sync(code);
+		System.out.println(accessToken);
 		// create party with accessToken
-		PartyService.createParty(accessToken, partyName);
+		//partyService.createParty(accessToken);
 		return true;
 	}
 
