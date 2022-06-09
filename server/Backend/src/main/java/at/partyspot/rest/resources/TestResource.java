@@ -3,6 +3,7 @@ package at.partyspot.rest.resources;
 import java.util.List;
 import java.util.UUID;
 
+import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -27,23 +28,19 @@ public class TestResource {
 	UserService userService = new UserService();
 	DatabaseService databaseService = new DatabaseService();
 	SongService songService = new SongService();
-	UserroleService userroleService = new UserroleService();
-		
-	@Context
-    private UriInfo context;
- 
-    public TestResource() {
-    }
 	
-    
+	@EJB
+	PartyService partyService;
+		   
 	@Path("testfunction")
 	@GET
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-		Userrole userrole = userroleService.getUserrole("host");
-		Userrole userrole2 = userroleService.getUserrole("00000000-0000-0000-0000-000000000000");
-		List<Userrole> userroles = userroleService.getAll();
+		//Party party = partyService.getParty("testparty");
+		//Party party2 = partyService.getParty(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+		//List<Party> parties = partyService.getAll();
+		partyService.createParty("einName", null, "einToken");
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
 	}

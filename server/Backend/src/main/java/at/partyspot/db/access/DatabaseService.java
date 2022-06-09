@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import javax.ejb.Stateless;
+
 import at.partyspot.rest.resources.FileHandler;
 import at.partyspot.rest.resources.Utilities;
 
+@Stateless
 public class DatabaseService {
 
 	private Connection connect = null;
@@ -45,7 +48,7 @@ public class DatabaseService {
 		return mySqlCon;
 	}
 
-	private void close() {
+	public void close() {
 		try {
 			if (resultSet != null) {
 				resultSet.close();
