@@ -26,21 +26,17 @@ import at.partyspot.db.model.Userrole;
 @Path("/testpath")
 public class TestResource {
 	
-	UserService userService = new UserService();
-	DatabaseService databaseService = new DatabaseService();
-	SongService songService = new SongService();
-	
 	@EJB
-	PlaylistService playlistService;
+	UserService userService;
 		   
 	@Path("testfunction")
 	@GET
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-		Playlist obj1 = playlistService.getPlaylist("testplaylist");
-		Playlist obj2 = playlistService.getPlaylist(UUID.fromString("00000000-0000-0000-0000-000000000000"));
-		List<Playlist> list1 = playlistService.getAll();
+		User obj1 = userService.getUser("testuser");
+		User obj2 = userService.getUser(UUID.fromString("5f4a2ebd-e0c2-11ec-abb5-00090ffe0001"));
+		List<User> list1 = userService.getAll();
 		//partyService.createParty("einName", null, "einToken");
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
