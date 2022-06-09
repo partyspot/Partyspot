@@ -12,12 +12,9 @@ export class RestService {
 
     constructor(private http: HttpClient) { }
 
-    async adminLogin() {
+    async adminLogin(): Promise<string> {
         let redirectURI = '';
-        this.http.get("http:/localhost:8080/Backend/rest/login/loginWithSpotify", this.options).toPromise().then(res => {
-            redirectURI = res;
-            return redirectURI;
-        })
-    }
+        return this.http.get('http://localhost:8080/Backend/rest/login/loginWithSpotify', this.options).toPromise();
+    } 
 
 }

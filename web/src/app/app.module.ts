@@ -9,9 +9,10 @@ import { AppComponent } from './app.component';
 
 import { ModalPageModule } from './modals/modal/modal.module';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpBackend, HttpClientModule, HttpXhrBackend } from '@angular/common/http';
 import { OverviewComponent } from './components/overview/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
+import { RestService } from './rest/restService/restService';
 
 @NgModule({
   declarations: [AppComponent, OverviewComponent, LoginComponent],
@@ -26,7 +27,8 @@ import { LoginComponent } from './components/login/login.component';
     FormsModule
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: RestService, useClass: RestService}
   ],
   bootstrap: [AppComponent]
 })

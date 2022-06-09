@@ -42,7 +42,7 @@ public class SpotifyAPITokenManager {
 	  public String authorizationCodeUri_Sync() {
 	    final URI uri = authorizationCodeUriRequest.execute();
 
-	    return "URI: " + uri.toString();
+	    return uri.toString();
 	  }
 	  
 	  public String authorizationCode_Sync(String code) {

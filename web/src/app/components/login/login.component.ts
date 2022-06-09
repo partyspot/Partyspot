@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { RestService } from 'src/app/rest/restService/restService';
 
 
 @Component({
@@ -18,12 +19,18 @@ export class LoginComponent implements OnInit {
   @ViewChild('guestCode')
   guestCode: ElementRef;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private restService: RestService) { }
 
   ngOnInit() { }
 
-  redirectToSpotify(): void {
+  async redirectToSpotify(): Promise<void> {
     console.log("going to spotify")
+    let redirectURI = '';
+    await this.restService.adminLogin().then(res => {
+      redirectURI = res;
+    });
+    console.log(redirectURI);
+    this.router.navigateByUrl(redirectURI);
   }
 
   guestLogin(): void {
