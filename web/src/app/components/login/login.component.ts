@@ -24,13 +24,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() { }
 
   async redirectToSpotify(): Promise<void> {
-    console.log("going to spotify")
     let redirectURI = '';
     await this.restService.adminLogin().then(res => {
       redirectURI = res;
     });
     console.log(redirectURI);
-    this.router.navigateByUrl(redirectURI);
+    window.open(redirectURI, "_blank");
   }
 
   guestLogin(): void {
