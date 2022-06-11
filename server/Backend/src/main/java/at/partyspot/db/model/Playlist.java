@@ -1,18 +1,25 @@
 package at.partyspot.db.model;
 
 import java.util.Set;
-import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Playlist extends NamedBaseEntity {
 
-	@Column(columnDefinition = "BINARY(16)")
-	private UUID partyId;
+	@OneToOne
+	Party party;
 	
 	@OneToMany(mappedBy = "playlist")
     Set<SongPlaylist> songPlaylist;
+	
+	public Party getParty() {
+		return party;
+	}
+
+	public void setParty(Party party) {
+		this.party = party;
+	}
 }

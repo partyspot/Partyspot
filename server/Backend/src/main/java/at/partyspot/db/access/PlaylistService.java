@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Playlist;
 
 @Stateless
@@ -17,6 +18,8 @@ public class PlaylistService {
 	
 	@EJB
 	DatabaseService databaseService;
+	@EJB
+	PartyService partyService;
 
 	public List<Playlist> getAll() throws Exception {
 		List<Playlist> playlists = new ArrayList<Playlist>();
@@ -29,6 +32,9 @@ public class PlaylistService {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			playlist.setId(uuid);
 			playlist.setName(resultSet.getString("name"));
+			UUID partyId = UUID.fromString(resultSet.getString("party_id"));
+			Party party = partyService.getParty(partyId);
+			playlist.setParty(party);
 			playlists.add(playlist);
 		}
 		conn.close();
@@ -46,6 +52,9 @@ public class PlaylistService {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			playlist.setId(uuid);
 			playlist.setName(resultSet.getString("name"));
+			UUID partyId = UUID.fromString(resultSet.getString("party_id"));
+			Party party = partyService.getParty(partyId);
+			playlist.setParty(party);
 		}
 		conn.close();
 		return playlist;
@@ -62,6 +71,9 @@ public class PlaylistService {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			playlist.setId(uuid);
 			playlist.setName(resultSet.getString("name"));
+			UUID partyId = UUID.fromString(resultSet.getString("party_id"));
+			Party party = partyService.getParty(partyId);
+			playlist.setParty(party);
 		}
 		conn.close();
 		return playlist;
