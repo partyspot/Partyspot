@@ -12,7 +12,6 @@ export class ModalPage implements OnInit {
   partyName: ElementRef;
 
   partyNameToDisplay: String;
-  partyCode: String;
 
   constructor(public modalCtrl: ModalController) { }
 
