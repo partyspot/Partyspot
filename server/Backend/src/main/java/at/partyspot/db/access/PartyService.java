@@ -3,7 +3,6 @@ package at.partyspot.db.access;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +11,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import at.partyspot.db.model.Party;
-import at.partyspot.rest.resources.Utilities;
 
 @Stateless
 public class PartyService {
