@@ -16,7 +16,9 @@ export class OverviewComponent implements OnInit {
 
   constructor(public modalCtrl: ModalController, private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.onPageLoad();
+   }
 
   async showModal() {
     const modal = await this.modalCtrl.create({
@@ -41,6 +43,29 @@ export class OverviewComponent implements OnInit {
 
   logout(): void {
     this.router.navigate(['/login']);
+  }
+
+  onPageLoad() {
+    if (window.location.search.length > 0) {
+      console.log("Page loaded");
+      this.handleRedirect();
+    }
+    
+  }
+
+  handleRedirect() {
+    let code = this.getCode();
+    console.log(code);
+  }
+
+  getCode() {
+    let code = null;
+    const queryString = window.location.search;
+    if (queryString.length > 0) {
+      const urlParams = new URLSearchParams(queryString);
+      code = urlParams.get("code");
+    }
+    return code;
   }
 
 }
