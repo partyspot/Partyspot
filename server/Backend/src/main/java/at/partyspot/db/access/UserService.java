@@ -88,7 +88,7 @@ public class UserService extends DatabaseService {
 		return user;
 	}
 	
-	public User createUser(String name) throws Exception {
+	public User createUser(String name, UUID roleId, UUID partyId) throws Exception {
 		User user = new User();
 		UUID id = UUID.randomUUID();
 		user.setId(id);
@@ -99,8 +99,8 @@ public class UserService extends DatabaseService {
 		CallableStatement statement = conn.prepareCall(query);
 		statement.setString(1, user.getId().toString());
 		statement.setString(2, name);
-		statement.setString(3, null);
-		statement.setString(4, null);
+		statement.setString(3, roleId.toString());
+		statement.setString(4, partyId.toString());
 		statement.executeQuery();
 		statement.close();
 		conn.close();
