@@ -12,13 +12,15 @@ import { Router } from '@angular/router';
 })
 export class OverviewComponent implements OnInit {
 
-  isAdmin = true;
+  isAdmin: Boolean = false;
+  inviteCode: String;
+  partyName = "";
 
   constructor(public modalCtrl: ModalController, private router: Router) { }
 
   ngOnInit() {
     this.onPageLoad();
-   }
+  }
 
   async showModal() {
     const modal = await this.modalCtrl.create({
@@ -50,12 +52,12 @@ export class OverviewComponent implements OnInit {
       console.log("Page loaded");
       this.handleRedirect();
     }
-    
+
   }
 
   handleRedirect() {
-    let code = this.getCode();
-    console.log(code);
+    this.inviteCode = this.getCode();
+    this.isAdmin = true;
   }
 
   getCode() {
