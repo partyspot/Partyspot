@@ -10,13 +10,19 @@ import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import at.partyspot.db.model.Party;
 import at.partyspot.db.model.User;
+import at.partyspot.db.model.Userrole;
 
 @Stateless
 public class UserService extends DatabaseService {
 
 	@EJB
 	DatabaseService databaseService;
+	@EJB
+	UserroleService userroleService;
+	@EJB
+	PartyService partyService;
 	
 	public List<User> getAll() throws Exception {
 		List<User> users = new ArrayList<User>();
@@ -29,6 +35,11 @@ public class UserService extends DatabaseService {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			user.setId(uuid);
 			user.setName(resultSet.getString("name"));
+			UUID userroleId = UUID.fromString(resultSet.getString("userrole_id"));
+			Userrole userrole = userroleService.getUserrole(userroleId);
+			user.setUserrole(userrole);
+			Party party = partyService.getParty(UUID.fromString(resultSet.getString("party_id")));
+			user.setParty(party);
 			users.add(user);
 		}
 		conn.close();
@@ -46,6 +57,11 @@ public class UserService extends DatabaseService {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			user.setId(uuid);
 			user.setName(resultSet.getString("name"));
+			UUID userroleId = UUID.fromString(resultSet.getString("userrole_id"));
+			Userrole userrole = userroleService.getUserrole(userroleId);
+			user.setUserrole(userrole);
+			Party party = partyService.getParty(UUID.fromString(resultSet.getString("party_id")));
+			user.setParty(party);
 		}
 		conn.close();
 		return user;
@@ -62,7 +78,31 @@ public class UserService extends DatabaseService {
 			UUID uuid = UUID.fromString(resultSet.getString("id"));
 			user.setId(uuid);
 			user.setName(resultSet.getString("name"));
+			UUID userroleId = UUID.fromString(resultSet.getString("userrole_id"));
+			Userrole userrole = userroleService.getUserrole(userroleId);
+			user.setUserrole(userrole);
+			Party party = partyService.getParty(UUID.fromString(resultSet.getString("party_id")));
+			user.setParty(party);
 		}
+		conn.close();
+		return user;
+	}
+	
+	public User createUser(String name, UUID roleId, UUID partyId) throws Exception {
+		User user = new User();
+		UUID id = UUID.randomUUID();
+		user.setId(id);
+		user.setName(name);
+		
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL createUser(?, ?, ?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, user.getId().toString());
+		statement.setString(2, name);
+		statement.setString(3, roleId.toString());
+		statement.setString(4, partyId.toString());
+		statement.executeQuery();
+		statement.close();
 		conn.close();
 		return user;
 	}

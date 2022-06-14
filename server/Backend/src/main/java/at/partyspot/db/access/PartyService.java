@@ -3,7 +3,6 @@ package at.partyspot.db.access;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +11,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import at.partyspot.db.model.Party;
-import at.partyspot.rest.resources.Utilities;
 
 @Stateless
 public class PartyService {
@@ -92,6 +90,16 @@ public class PartyService {
 		statement.executeQuery();
 		conn.close();		
 		return party;
+	}
+	
+	public void updatePartyToken(String newToken, UUID partyId) throws Exception {
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL updatePartyToken(?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, newToken);
+		statement.setString(2, partyId.toString());
+		statement.executeQuery();
+		conn.close();		
 	}
 
 }

@@ -10,16 +10,11 @@ import { RestService } from 'src/app/rest/restService/restService';
 })
 export class LoginComponent implements OnInit {
 
-  /*@ViewChild('username')
-  username: ElementRef;
-
-  @ViewChild('password')
-  password: ElementRef; */
-
   @ViewChild('guestCode')
   guestCode: ElementRef;
 
-  constructor(private router: Router, private restService: RestService) { }
+  constructor(private router: Router, private restService: RestService) {
+  }
 
   ngOnInit() { }
 
@@ -29,7 +24,8 @@ export class LoginComponent implements OnInit {
       redirectURI = res;
     });
     console.log(redirectURI);
-    window.open(redirectURI, "_blank");
+    window.location.href = redirectURI;
+
   }
 
   guestLogin(): void {

@@ -4,6 +4,7 @@ import { ModalPage } from 'src/app/modals/modal/modal.page';
 import { GuestModalPage } from 'src/app/modals/guest-modal/guest-modal.page';
 import { GuestViewModalPage } from 'src/app/modals/guest-view-modal/guest-view-modal.page';
 import { Router } from '@angular/router';
+import { RestService } from 'src/app/rest/restService/restService';
 
 @Component({
   selector: 'app-overview',
@@ -12,11 +13,15 @@ import { Router } from '@angular/router';
 })
 export class OverviewComponent implements OnInit {
 
-  isAdmin = true;
+  isAdmin: Boolean = false;
+  inviteCode: String;
+  partyName = "";
 
-  constructor(public modalCtrl: ModalController, private router: Router) { }
+  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.onPageLoad();
+  }
 
   async showModal() {
     const modal = await this.modalCtrl.create({
@@ -41,6 +46,29 @@ export class OverviewComponent implements OnInit {
 
   logout(): void {
     this.router.navigate(['/login']);
+  }
+
+  onPageLoad() {
+    if (window.location.search.length > 0) {
+      console.log("Page loaded");
+      this.handleRedirect();
+    }
+
+  }
+
+  handleRedirect() {
+    this.inviteCode = this.getCode();
+    this.isAdmin = true;
+  }
+
+  getCode() {
+    let code = null;
+    const queryString = window.location.search;
+    if (queryString.length > 0) {
+      const urlParams = new URLSearchParams(queryString);
+      code = urlParams.get("code");
+    }
+    return code;
   }
 
 }

@@ -49,7 +49,7 @@ PRIMARY KEY(id)
 create table song__playlist(
 playlist_id binary(16),
 song_id binary(16),
-added_date date, 
+added_date datetime, 
 FOREIGN KEY (playlist_id) REFERENCES playlist (id),
 FOREIGN KEY (song_id) REFERENCES song (id)
 );
@@ -68,3 +68,98 @@ FOREIGN KEY (song_id) REFERENCES song (id)
 insert into userrole (id, name) values (uuid_to_bin('00000000-0000-0000-0000-000000000000'), 'developer');
 insert into userrole (id, name) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), 'host');
 insert into userrole (id, name) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), 'guest');
+
+
+/* Pseudo-Daten */
+
+insert into party (id, name, code, token) values (uuid_to_bin('00000000-0000-0000-0000-000000000000'), 'party1', '0000000000', 'token1');
+insert into party (id, name, code, token) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), 'party2', '0000000000', 'token2');
+
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), 'user1', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), 'user2', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000003'), 'user3', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000004'), 'user4', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000005'), 'user5', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000006'), 'user6', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000007'), 'user7', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000008'), 'user8', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000009'), 'user9', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000010'), 'user10', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000011'), 'user11', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000012'), 'user12', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000013'), 'user13', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000014'), 'user14', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000015'), 'user15', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000016'), 'user16', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000017'), 'user17', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000018'), 'user18', uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000019'), 'admin1', uuid_to_bin('00000000-0000-0000-0000-000000000001'), uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into puser (id, name, userrole_id, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000020'), 'admin2', uuid_to_bin('00000000-0000-0000-0000-000000000001'), uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+
+insert into playlist (id, name, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000000'), 'playlist1', uuid_to_bin('00000000-0000-0000-0000-000000000000'));
+insert into playlist (id, name, party_id) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), 'playlist2', uuid_to_bin('00000000-0000-0000-0000-000000000001'));
+
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), 'song1', null, 'Pop');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), 'song2', null, 'Pop');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000003'), 'song3', null, 'Rock');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000004'), 'song4', null, 'Rock');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000005'), 'song5', null, 'Jazz');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000006'), 'song6', null, 'Rock');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000007'), 'song7', null, 'Pop');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000008'), 'song8', null, 'Jazz');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000009'), 'song9', null, 'Metal');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000010'), 'song10', null, 'Disco');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000011'), 'song11', null, 'Disco');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000012'), 'song12', null, 'Western');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000013'), 'song13', null, 'Pop');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000014'), 'song14', null, 'Blues');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000015'), 'song15', null, 'Jazz');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000016'), 'song16', null, 'Pop');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000017'), 'song17', null, 'Rock');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000018'), 'song18', null, 'Metal');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000019'), 'song19', null, 'Metal');
+insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000020'), 'song20', null, 'Blues');
+
+
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000002'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000003'), uuid_to_bin('00000000-0000-0000-0000-000000000003'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000004'), uuid_to_bin('00000000-0000-0000-0000-000000000004'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000005'), uuid_to_bin('00000000-0000-0000-0000-000000000005'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000006'), uuid_to_bin('00000000-0000-0000-0000-000000000006'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000007'), uuid_to_bin('00000000-0000-0000-0000-000000000007'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000008'), uuid_to_bin('00000000-0000-0000-0000-000000000008'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000009'), uuid_to_bin('00000000-0000-0000-0000-000000000009'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000010'), uuid_to_bin('00000000-0000-0000-0000-000000000010'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000011'), uuid_to_bin('00000000-0000-0000-0000-000000000011'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000012'), uuid_to_bin('00000000-0000-0000-0000-000000000012'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000013'), uuid_to_bin('00000000-0000-0000-0000-000000000013'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000014'), uuid_to_bin('00000000-0000-0000-0000-000000000014'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000015'), uuid_to_bin('00000000-0000-0000-0000-000000000015'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000016'), uuid_to_bin('00000000-0000-0000-0000-000000000016'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000017'), uuid_to_bin('00000000-0000-0000-0000-000000000017'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000018'), uuid_to_bin('00000000-0000-0000-0000-000000000018'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000019'), uuid_to_bin('00000000-0000-0000-0000-000000000019'), 1);
+insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000020'), uuid_to_bin('00000000-0000-0000-0000-000000000020'), 1);
+
+
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 08:03:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 08:10:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000003'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 08:25:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000004'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 08:30:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000005'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 07:03:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000006'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 07:59:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000007'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 07:23:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000008'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 08:20:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000009'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 10:40:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000010'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 10:21:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000011'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 09:17:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000012'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 09:20:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000013'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 07:44:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000014'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 09:55:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000015'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 08:06:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000016'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 07:39:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000017'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 08:14:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000018'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 08:34:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000019'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 10:11:000');
+insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000020'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 09:09:000');

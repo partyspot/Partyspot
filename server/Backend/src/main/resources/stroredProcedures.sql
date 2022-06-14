@@ -68,7 +68,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getAllPlaylists()
 BEGIN
-    select bin_to_uuid(id) as id, name, party_id from playlist;
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id from playlist;
 END //
     
 DELIMITER ;
@@ -77,7 +77,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getPlaylistByName(IN playlistName varchar(100))
 BEGIN
-    select bin_to_uuid(id) as id, name, party_id from playlist where name = playlistName;
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) from playlist where name = playlistName;
 END //
     
 DELIMITER ;
@@ -85,7 +85,53 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getPlaylistById(IN playlistId VARCHAR(36))
 BEGIN
-    select bin_to_uuid(id) as id, name, party_id from playlist where id = uuid_to_bin(playlistId);
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) from playlist where id = uuid_to_bin(playlistId);
+END //
+    
+DELIMITER ;
+
+
+-- User
+
+DELIMITER //
+CREATE PROCEDURE getAllUsers()
+BEGIN
+    select bin_to_uuid(id) as id, name, bin_to_uuid(userrole_id) as userrole_id, bin_to_uuid(party_id) as party_id from puser;
+END //
+    
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE getUserByName(IN userName varchar(100))
+BEGIN
+   select bin_to_uuid(id) as id, name, bin_to_uuid(userrole_id) as userrole_id, bin_to_uuid(party_id) as party_id from puser where name = userName;
+END //
+    
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE getUserById(IN userId VARCHAR(36))
+BEGIN
+    select bin_to_uuid(id) as id, name, bin_to_uuid(userrole_id) as userrole_id, bin_to_uuid(party_id) as party_id from puser where id = uuid_to_bin(userId);
+END //
+    
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE createUser(IN userId VARCHAR(36), IN userName VARCHAR(100), IN userroleId VARCHAR(36), IN partyId VARCHAR(36))
+BEGIN
+    insert into puser (id, name, userrole_id, party_id) values(uuid_to_bin(userId), userName, uuid_to_bin(userroleId),  uuid_to_bin(partyId));
+END //
+    
+DELIMITER ;
+
+
+-- update Party Token
+DELIMITER //
+CREATE PROCEDURE updatePartyToken(IN newToken VARCHAR(1000), IN partyId VARCHAR(36))
+BEGIN
+    update party set token = newToken where id = uuid_to_bin(partyId);
 END //
     
 DELIMITER ;
