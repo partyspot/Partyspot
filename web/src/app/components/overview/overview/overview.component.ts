@@ -8,6 +8,7 @@ import { RestService } from 'src/app/rest/restService/restService';
 import { StateService } from '../../services/stateService';
 import { UUID } from 'angular2-uuid';
 import { toUUID } from 'to-uuid'
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-overview',
@@ -22,7 +23,8 @@ export class OverviewComponent implements OnInit {
   partyName = "";
   private currentSessionId: UUID;
 
-  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService, private stateService: StateService) { }
+  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
+              private stateService: StateService, private alertService: AlertService ) { }
 
   ngOnInit() {
     this.onPageLoad();
@@ -50,14 +52,16 @@ export class OverviewComponent implements OnInit {
   }
 
   logout(): void {
-    this.router.navigate(['/login']);
     this.stateService.removeAdminId(this.currentSessionId);
+    this.router.navigate(['/login']);
   }
 
   onPageLoad() {
     if (window.location.search.length > 0) {
-      console.log("Page loaded");
       this.handleRedirect();
+    } else {
+      this.alertService.danger('Bitte loggen Sie sich ein!');
+      this.router.navigate(['/login']);
     }
 
   }
