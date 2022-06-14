@@ -13,6 +13,7 @@ import { HttpBackend, HttpClientModule, HttpXhrBackend } from '@angular/common/h
 import { OverviewComponent } from './components/overview/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { RestService } from './rest/restService/restService';
+import { StateService } from './components/services/stateService';
 
 @NgModule({
   declarations: [AppComponent, OverviewComponent, LoginComponent],
@@ -28,7 +29,8 @@ import { RestService } from './rest/restService/restService';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: RestService, useClass: RestService}
+    { provide: RestService, useClass: RestService},
+    { provide: StateService, useClass: StateService}
   ],
   bootstrap: [AppComponent]
 })

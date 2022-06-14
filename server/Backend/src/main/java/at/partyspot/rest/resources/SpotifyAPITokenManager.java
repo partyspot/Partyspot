@@ -2,6 +2,7 @@ package at.partyspot.rest.resources;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.UUID;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -9,6 +10,9 @@ import javax.ejb.Stateless;
 import org.apache.hc.core5.http.ParseException;
 
 import at.partyspot.db.access.PartyService;
+import at.partyspot.db.access.UserService;
+import at.partyspot.db.model.Party;
+import at.partyspot.db.model.User;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -22,6 +26,9 @@ public class SpotifyAPITokenManager {
 	
 	@EJB
 	PartyService partyService;
+	
+	@EJB
+	UserService userService;
 	
 	
 	private static final String clientId = "d303cca7130840ecb1fa1d1268e2feea";
@@ -62,13 +69,14 @@ public class SpotifyAPITokenManager {
 			return "AuthorizationToken could not be retrieved";
 		  }
 	
-	public boolean createPartyAndNewAdminUser(String code) throws Exception {
+	public UUID createPartyAndNewAdminUser(String code, String userCode) throws Exception {
 		// using extracted code from URI the frontend was routed to
 		String accessToken = authorizationCode_Sync(code);
 		System.out.println(accessToken);
 		// create party with accessToken
-		//partyService.createParty(accessToken);
-		return true;
+		Party newParty = partyService.createParty("Partyname", userCode, accessToken);
+		User newAdminUser = userService.createUser("Admin", UUID.fromString("00000000-0000-0000-0000-000000000001"), newParty.getId());
+		return newAdminUser.getId();
 	}
 
 }

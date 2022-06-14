@@ -14,12 +14,11 @@ export class RestService {
     constructor(private http: HttpClient) { }
 
     async adminLogin(): Promise<string> {
-        let redirectURI = '';
         return this.http.get('http://localhost:8080/Backend/rest/login/loginWithSpotify', this.options).toPromise();
     }
 
-    sendTokenCode(code: string) {
-        this.http.post('http://localhost:8080/Backend/rest/login/postCode?code=' + code, this.options);
+    async createNewPartyWithNewCodeAndHostAndGetGuestCode(code: string): Promise<string> {
+        return this.http.get('http://localhost:8080/Backend/rest/login/newPartyAndNewHost?code=' + code, this.options).toPromise();
     }
 
 }

@@ -91,5 +91,15 @@ public class PartyService {
 		conn.close();		
 		return party;
 	}
+	
+	public void updatePartyToken(String newToken, UUID partyId) throws Exception {
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL updatePartyToken(?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, newToken);
+		statement.setString(2, partyId.toString());
+		statement.executeQuery();
+		conn.close();		
+	}
 
 }
