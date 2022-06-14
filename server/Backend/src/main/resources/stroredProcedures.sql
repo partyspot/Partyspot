@@ -125,3 +125,13 @@ BEGIN
 END //
     
 DELIMITER ;
+
+
+-- update Party Token
+DELIMITER //
+CREATE PROCEDURE updatePartyToken(IN newToken VARCHAR(1000), IN partyId VARCHAR(36))
+BEGIN
+    update party set token = newToken where id = uuid_to_bin(partyId);
+END //
+    
+DELIMITER ;
