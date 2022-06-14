@@ -4,6 +4,7 @@ import { ModalPage } from 'src/app/modals/modal/modal.page';
 import { GuestModalPage } from 'src/app/modals/guest-modal/guest-modal.page';
 import { GuestViewModalPage } from 'src/app/modals/guest-view-modal/guest-view-modal.page';
 import { Router } from '@angular/router';
+import { RestService } from 'src/app/rest/restService/restService';
 
 @Component({
   selector: 'app-overview',
@@ -16,7 +17,7 @@ export class OverviewComponent implements OnInit {
   inviteCode: String;
   partyName = "";
 
-  constructor(public modalCtrl: ModalController, private router: Router) { }
+  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService) { }
 
   ngOnInit() {
     this.onPageLoad();
