@@ -5,6 +5,9 @@ import { GuestModalPage } from 'src/app/modals/guest-modal/guest-modal.page';
 import { GuestViewModalPage } from 'src/app/modals/guest-view-modal/guest-view-modal.page';
 import { Router } from '@angular/router';
 import { RestService } from 'src/app/rest/restService/restService';
+import { StateService } from '../../services/stateService';
+import { UUID } from 'angular2-uuid';
+import { toUUID } from 'to-uuid'
 
 @Component({
   selector: 'app-overview',
@@ -13,11 +16,13 @@ import { RestService } from 'src/app/rest/restService/restService';
 })
 export class OverviewComponent implements OnInit {
 
-  isAdmin: Boolean = false;
-  inviteCode: String;
+  isAdmin: boolean = false;
+  inviteCode: string;
+  spotifyCode: string;
   partyName = "";
+  private currentSessionId: UUID;
 
-  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService) { }
+  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService, private stateService: StateService) { }
 
   ngOnInit() {
     this.onPageLoad();
@@ -46,6 +51,7 @@ export class OverviewComponent implements OnInit {
 
   logout(): void {
     this.router.navigate(['/login']);
+    this.stateService.removeAdminId(this.currentSessionId);
   }
 
   onPageLoad() {
@@ -56,9 +62,17 @@ export class OverviewComponent implements OnInit {
 
   }
 
-  handleRedirect() {
-    this.inviteCode = this.getCode();
+  async handleRedirect() {
+    this.spotifyCode = this.getCode();
     this.isAdmin = true;
+    await this.restService.createNewPartyWithNewCodeAndHostAndGetGuestCode(this.spotifyCode).then(res => {
+      this.currentSessionId = UUID.UUID();
+      console.log(res);
+      const results = res.split(",");
+      this.inviteCode = results[0];
+      const adminId = results[1].replaceAll('-', '')
+      this.stateService.addAdminId(this.currentSessionId, toUUID(adminId));
+    });
   }
 
   getCode() {
