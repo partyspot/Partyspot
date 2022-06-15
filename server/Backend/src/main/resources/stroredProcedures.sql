@@ -68,7 +68,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getAllPlaylists()
 BEGIN
-    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id from playlist;
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id, spotify_uri from playlist;
 END //
     
 DELIMITER ;
@@ -77,7 +77,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getPlaylistByName(IN playlistName varchar(100))
 BEGIN
-    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id from playlist where name = playlistName;
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id, spotify_uri from playlist where name = playlistName;
 END //
     
 DELIMITER ;
@@ -85,7 +85,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getPlaylistById(IN playlistId VARCHAR(36))
 BEGIN
-    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id)as party_id from playlist where id = uuid_to_bin(playlistId);
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id)as party_id, spotify_uri from playlist where id = uuid_to_bin(playlistId);
 END //
     
 DELIMITER ;
@@ -141,16 +141,16 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getPlaylistByPartyId(IN partyId VARCHAR(36))
 BEGIN
-    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id from playlist where party_id = uuid_to_bin(partyId);
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id, spotify_uri from playlist where party_id = uuid_to_bin(partyId);
 END //
     
 DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE createPlaylist(IN playlistId VARCHAR(36), IN playlistName VARCHAR(100), IN partyId VARCHAR(36))
+CREATE PROCEDURE createPlaylist(IN playlistId VARCHAR(36), IN playlistName VARCHAR(100), IN partyId VARCHAR(36), IN spotifyUri VARCHAR(255))
 BEGIN
-    insert into Playlist (id, name, party_id) values (UUID_TO_BIN(playlistId), playlistName, UUID_TO_BIN(partyId));
+    insert into Playlist (id, name, party_id, spotify_uri) values (UUID_TO_BIN(playlistId), playlistName, UUID_TO_BIN(partyId), spotifyUri);
 END //
     
 DELIMITER ;

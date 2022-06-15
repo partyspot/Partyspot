@@ -28,10 +28,11 @@ public class TestResource {
 		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
 		//User obj1 = userService.getUser("testuser");
 		//User obj2 = userService.getUser(UUID.fromString("5f4a2ebd-e0c2-11ec-abb5-00090ffe0001"));
-		//List<Playlist> list1 = playlistService.getAll();
+		List<Playlist> list1 = playlistService.getAll();
 		partyService.updatePartyToken("tokenFromBackend", id);
 		Playlist playlist = playlistService.getPlaylistByPartyId(id);
-		Playlist playlsit2 = playlistService.createPlaylist("playlistFromBackend", id);
+		Playlist playlist3 = playlistService.getPlaylist("playlist1");
+		Playlist playlsit2 = playlistService.createPlaylist("playlistFromBackend", id, "eineUri");
 		//userService.createUser("hugo");
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
