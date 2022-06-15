@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
 
 import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Playlist;
-import at.partyspot.db.model.User;
 
 @Stateless
 public class PlaylistService {

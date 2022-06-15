@@ -1,6 +1,7 @@
 declare var require: any
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { UUID } from 'angular2-uuid';
 
 @Injectable()
 export class RestService {
@@ -19,6 +20,10 @@ export class RestService {
 
     async createNewPartyWithNewCodeAndHostAndGetGuestCode(code: string): Promise<string> {
         return this.http.get('http://localhost:8080/Backend/rest/login/newPartyAndNewHost?code=' + code, this.options).toPromise();
+    }
+
+    async getDefaultPlaylist(adminId: UUID) {
+        return this.http.get('http://localhost:8080/Backend/rest/db/getDefaultPlaylist?adminId=' + adminId.toString()).toPromise();
     }
 
 }

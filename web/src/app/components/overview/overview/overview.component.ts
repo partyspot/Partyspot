@@ -22,6 +22,7 @@ export class OverviewComponent implements OnInit {
   spotifyCode: string;
   partyName = "";
   private currentSessionId: UUID;
+  currentPlaylist;
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
               private stateService: StateService, private alertService: AlertService ) { }
@@ -69,13 +70,17 @@ export class OverviewComponent implements OnInit {
   async handleRedirect() {
     this.spotifyCode = this.getCode();
     this.isAdmin = true;
-    await this.restService.createNewPartyWithNewCodeAndHostAndGetGuestCode(this.spotifyCode).then(res => {
+    await this.restService.createNewPartyWithNewCodeAndHostAndGetGuestCode(this.spotifyCode).then(async res => {
       this.currentSessionId = UUID.UUID();
       console.log(res);
       const results = res.split(",");
       this.inviteCode = results[0];
       const adminId = results[1].replaceAll('-', '')
       this.stateService.addAdminId(this.currentSessionId, toUUID(adminId));
+      await this.restService.getDefaultPlaylist(results[1]).then(res => {
+        this.currentPlaylist = res;
+        console.log(this.currentPlaylist);
+      });
     });
   }
 
