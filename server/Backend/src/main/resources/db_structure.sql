@@ -62,6 +62,8 @@ FOREIGN KEY (user_id) REFERENCES puser (id),
 FOREIGN KEY (song_id) REFERENCES song (id)
 );
 
+alter table playlist add column spotify_uri varchar(255);
+
 
 /* userrole: Data */
 
