@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { RestService } from 'src/app/rest/restService/restService';
 import { StateService } from '../../services/stateService';
 import { UUID } from 'angular2-uuid';
-import { toUUID } from 'to-uuid'
+import { toUUID } from 'to-uuid';
 import { AlertService } from 'ngx-alerts';
 
 @Component({
