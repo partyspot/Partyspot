@@ -79,6 +79,7 @@ public class PartyService {
 		party.setId(uuid);
 		party.setName(partyName);
 		party.setToken(accessToken);
+		party.setCode(Code);
 		
 		Connection conn = databaseService.createConnection();
 		String query = "{CALL createParty(?, ?, ?, ?)}";
