@@ -60,10 +60,10 @@ public class PlaylistService {
 		return playlist;
 	}
 
-	public Playlist getPlaylist(UUID id) throws Exception {
+	public Playlist getPlaylistByPartyId(UUID id) throws Exception {
 		Playlist playlist = new Playlist();
 		Connection conn = databaseService.createConnection();
-		String query = "{CALL getPlaylistById(?)}";
+		String query = "{CALL getPlaylistByPartyId(?)}";
 		CallableStatement statement = conn.prepareCall(query);
 		statement.setString(1, id.toString());
 		ResultSet resultSet = statement.executeQuery();

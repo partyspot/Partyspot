@@ -77,7 +77,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getPlaylistByName(IN playlistName varchar(100))
 BEGIN
-    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) from playlist where name = playlistName;
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id from playlist where name = playlistName;
 END //
     
 DELIMITER ;
@@ -85,7 +85,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getPlaylistById(IN playlistId VARCHAR(36))
 BEGIN
-    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) from playlist where id = uuid_to_bin(playlistId);
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id)as party_id from playlist where id = uuid_to_bin(playlistId);
 END //
     
 DELIMITER ;
@@ -132,6 +132,16 @@ DELIMITER //
 CREATE PROCEDURE updatePartyToken(IN newToken VARCHAR(1000), IN partyId VARCHAR(36))
 BEGIN
     update party set token = newToken where id = uuid_to_bin(partyId);
+END //
+    
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE getPlaylistByPartyId(IN partyId VARCHAR(36))
+BEGIN
+    select bin_to_uuid(id) as id, name, bin_to_uuid(party_id) as party_id from playlist where party_id = uuid_to_bin(partyId);
 END //
     
 DELIMITER ;
