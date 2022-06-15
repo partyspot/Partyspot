@@ -145,3 +145,15 @@ BEGIN
 END //
     
 DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE createPlaylist(IN playlistId VARCHAR(36), IN playlistName VARCHAR(100), IN partyId VARCHAR(36))
+BEGIN
+    insert into Playlist (id, name, party_id) values (UUID_TO_BIN(playlistId), playlistName, UUID_TO_BIN(partyId));
+END //
+    
+DELIMITER ;
+
+
+

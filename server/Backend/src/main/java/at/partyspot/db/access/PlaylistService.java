@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 
 import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Playlist;
+import at.partyspot.db.model.User;
 
 @Stateless
 public class PlaylistService {
@@ -75,6 +76,24 @@ public class PlaylistService {
 			Party party = partyService.getParty(partyId);
 			playlist.setParty(party);
 		}
+		conn.close();
+		return playlist;
+	}
+	
+	public Playlist createPlaylist(String name, UUID partyId) throws Exception {
+		Playlist playlist = new Playlist();
+		UUID id = UUID.randomUUID();
+		playlist.setId(id);
+		playlist.setName(name);
+		
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL createPlaylist(?, ?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, playlist.getId().toString());
+		statement.setString(2, name);
+		statement.setString(3, partyId.toString());
+		statement.executeQuery();
+		statement.close();
 		conn.close();
 		return playlist;
 	}

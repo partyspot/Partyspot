@@ -31,6 +31,7 @@ public class TestResource {
 		//List<Playlist> list1 = playlistService.getAll();
 		partyService.updatePartyToken("tokenFromBackend", id);
 		Playlist playlist = playlistService.getPlaylistByPartyId(id);
+		Playlist playlsit2 = playlistService.createPlaylist("playlistFromBackend", id);
 		//userService.createUser("hugo");
 		//List<String> cols = databaseService.getColumns("puser");
 		return Response.ok().entity("Hello World!").build();
