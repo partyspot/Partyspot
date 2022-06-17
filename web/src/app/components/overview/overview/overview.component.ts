@@ -5,6 +5,10 @@ import { GuestModalPage } from 'src/app/modals/guest-modal/guest-modal.page';
 import { GuestViewModalPage } from 'src/app/modals/guest-view-modal/guest-view-modal.page';
 import { Router } from '@angular/router';
 import { RestService } from 'src/app/rest/restService/restService';
+import { StateService } from '../../services/stateService';
+import { UUID } from 'angular2-uuid';
+import { toUUID } from 'to-uuid';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-overview',
@@ -13,11 +17,15 @@ import { RestService } from 'src/app/rest/restService/restService';
 })
 export class OverviewComponent implements OnInit {
 
-  isAdmin: Boolean = false;
-  inviteCode: String;
+  isAdmin: boolean = false;
+  inviteCode: string;
+  spotifyCode: string;
   partyName = "";
+  private currentSessionId: UUID;
+  currentPlaylist;
 
-  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService) { }
+  constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
+              private stateService: StateService, private alertService: AlertService ) { }
 
   ngOnInit() {
     this.onPageLoad();
@@ -45,20 +53,35 @@ export class OverviewComponent implements OnInit {
   }
 
   logout(): void {
+    this.stateService.removeAdminId(this.currentSessionId);
     this.router.navigate(['/login']);
   }
 
   onPageLoad() {
     if (window.location.search.length > 0) {
-      console.log("Page loaded");
       this.handleRedirect();
+    } else {
+      this.alertService.danger('Bitte loggen Sie sich ein!');
+      this.router.navigate(['/login']);
     }
 
   }
 
-  handleRedirect() {
-    this.inviteCode = this.getCode();
+  async handleRedirect() {
+    this.spotifyCode = this.getCode();
     this.isAdmin = true;
+    await this.restService.createNewPartyWithNewCodeAndHostAndGetGuestCode(this.spotifyCode).then(async res => {
+      this.currentSessionId = UUID.UUID();
+      console.log(res);
+      const results = res.split(",");
+      this.inviteCode = results[0];
+      const adminId = results[1].replaceAll('-', '')
+      this.stateService.addAdminId(this.currentSessionId, toUUID(adminId));
+      await this.restService.getDefaultPlaylist(results[1]).then(res => {
+        this.currentPlaylist = res;
+        console.log(this.currentPlaylist);
+      });
+    });
   }
 
   getCode() {

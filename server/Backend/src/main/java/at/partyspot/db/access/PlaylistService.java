@@ -35,6 +35,7 @@ public class PlaylistService {
 			UUID partyId = UUID.fromString(resultSet.getString("party_id"));
 			Party party = partyService.getParty(partyId);
 			playlist.setParty(party);
+			playlist.setPlaylistUri(resultSet.getString("spotify_uri"));
 			playlists.add(playlist);
 		}
 		conn.close();
@@ -54,16 +55,17 @@ public class PlaylistService {
 			playlist.setName(resultSet.getString("name"));
 			UUID partyId = UUID.fromString(resultSet.getString("party_id"));
 			Party party = partyService.getParty(partyId);
+			playlist.setPlaylistUri(resultSet.getString("spotify_uri"));
 			playlist.setParty(party);
 		}
 		conn.close();
 		return playlist;
 	}
 
-	public Playlist getPlaylist(UUID id) throws Exception {
+	public Playlist getPlaylistByPartyId(UUID id) throws Exception {
 		Playlist playlist = new Playlist();
 		Connection conn = databaseService.createConnection();
-		String query = "{CALL getPlaylistById(?)}";
+		String query = "{CALL getPlaylistByPartyId(?)}";
 		CallableStatement statement = conn.prepareCall(query);
 		statement.setString(1, id.toString());
 		ResultSet resultSet = statement.executeQuery();
@@ -73,8 +75,31 @@ public class PlaylistService {
 			playlist.setName(resultSet.getString("name"));
 			UUID partyId = UUID.fromString(resultSet.getString("party_id"));
 			Party party = partyService.getParty(partyId);
+			playlist.setPlaylistUri(resultSet.getString("spotify_uri"));
 			playlist.setParty(party);
 		}
+		conn.close();
+		return playlist;
+	}
+	
+	public Playlist createPlaylist(String name, UUID partyId, String spotifyUri) throws Exception {
+		Playlist playlist = new Playlist();
+		UUID id = UUID.randomUUID();
+		playlist.setId(id);
+		playlist.setName(name);
+		playlist.setPlaylistUri(spotifyUri);
+		Party party = partyService.getParty(partyId);
+		playlist.setParty(party);
+		
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL createPlaylist(?, ?, ?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, playlist.getId().toString());
+		statement.setString(2, name);
+		statement.setString(3, partyId.toString());
+		statement.setString(4, spotifyUri);
+		statement.executeQuery();
+		statement.close();
 		conn.close();
 		return playlist;
 	}
