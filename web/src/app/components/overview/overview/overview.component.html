@@ -15,7 +15,14 @@
     title="Ausloggen"></i>
 </div>
 
-<div *ngIf="isAdmin" class="party-name">Gästecode: {{inviteCode}}</div>
+<div *ngIf="isAdmin" class="party-name">
+  <!-- padding-top: 4px aligns the invitecode vertically with the input of the search field -->
+  <div style="padding-top: 4px" title="Code um Gäste einzuladen">{{inviteCode}}</div>
+  <!-- margin-left: auto aligns the search field to the right -->
+  <div style="margin-left: auto">
+    <input type="text" id="songSearch" placeholder="Lied suchen" name="songSearch" #songSearch style="width: 200px">
+  </div>
+</div>
 <div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
 <div class="ps-card">
   <div class="ps-body">
