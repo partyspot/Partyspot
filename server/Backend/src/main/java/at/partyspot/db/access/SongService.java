@@ -10,7 +10,9 @@ import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Song;
+import at.partyspot.db.model.User;
 
 @Stateless
 public class SongService {
@@ -72,6 +74,21 @@ public class SongService {
 		}
 		conn.close();
 		return song;
+	}
+	
+	public void addSong(Song song, UUID playlistId, User user) throws Exception {
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL addSong(?, ?, ?, ?, ?, ?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, song.getId().toString());
+		statement.setString(2, song.getName());
+		statement.setString(3, song.getSpotifyUri());
+		statement.setString(4, "");
+		statement.setString(5, playlistId.toString());
+		statement.setString(6, user.getId().toString());
+		statement.setString(7, user.getParty().getId().toString());
+		statement.executeQuery();
+		conn.close();		
 	}
 
 }

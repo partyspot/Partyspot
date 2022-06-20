@@ -207,4 +207,22 @@ END //
 DELIMITER ;
 
 
+-- Add Song
+
+DELIMITER //
+CREATE PROCEDURE addSong(IN songId VARCHAR(36), IN songName VARCHAR(255), IN spotifyUri VARCHAR(255), 
+IN genre VARCHAR(100), IN playlistId VARCHAR(36), IN userId VARCHAR(36), IN partyId VARCHAR(36))
+BEGIN
+    INSERT INTO song (id, name, spotify_uri, genre) values (UUID_TO_BIN(songId), songName, spotifyUri, genre);
+    INSERT INTO song__playlist (playlist_id, song_id, added_date) values (UUID_TO_BIN(playlistId), UUID_TO_BIN(songId), now());
+    INSERT INTO user__song (user_id, song_id, voting) values (UUID_TO_BIN(userId), UUID_TO_BIN(songId), 1);
+    INSERT INTO user__song (user_id, song_id, voting)
+		select id, UUID_TO_BIN(songId), 0 from puser u 
+		where id <> UUID_TO_BIN(userId) 
+		and party_id = UUID_TO_BIN(partyId);
+END //
+    
+DELIMITER ;
+
+
 
