@@ -9,6 +9,7 @@ import { StateService } from '../../services/stateService';
 import { UUID } from 'angular2-uuid';
 import { toUUID } from 'to-uuid';
 import { AlertService } from 'ngx-alerts';
+import { Song } from 'src/app/rest/DTOModels/Song';
 
 @Component({
   selector: 'app-overview',
@@ -54,6 +55,7 @@ export class OverviewComponent implements OnInit {
 
   logout(): void {
     this.stateService.removeAdminId(this.currentSessionId);
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 
@@ -94,14 +96,22 @@ export class OverviewComponent implements OnInit {
     return code;
   }
 
-  getSearchResults(searchString: string) {
+  async getSearchResults(searchString: string) {
     let searchResults;
     if (this.isAdmin) {
       const userId = this.stateService.getAdminId(this.currentSessionId);
-      this.restService.getSearchResult(searchString, userId).then(res => {
-        searchResults = res;
+      await this.restService.getSearchResult(searchString, userId).then(res => {
+        searchResults = res as Song[];
+        console.log(searchResults);
+      });
+    } else {
+      const userId = sessionStorage.getItem("currentUser");
+      await this.restService.getSearchResult(searchString, userId).then(res => {
+        searchResults = res as Song[];
+        console.log(searchResults);
       });
     }
+    return searchResults;
   }
 
 }

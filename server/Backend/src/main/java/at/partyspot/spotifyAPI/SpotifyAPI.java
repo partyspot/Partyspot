@@ -52,7 +52,7 @@ public class SpotifyAPI {
 		String accessToken = party.getToken();
 		SpotifyApi spotifyApi = new SpotifyApi.Builder()
 			    .setAccessToken(accessToken).build();
-		Track[] tracks = spotifyApi.searchTracks(searchString).build().execute().getItems();
+		Track[] tracks = spotifyApi.searchTracks(searchString).limit(50).build().execute().getItems();
 		List<Track> spotifyTracks = Arrays.asList(tracks);
 		spotifyTracks.forEach(track -> {
 			Song singleSong = new Song();
