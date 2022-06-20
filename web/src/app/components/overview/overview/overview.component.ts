@@ -1,3 +1,4 @@
+///  <reference types="@types/spotify-web-playback-sdk"/>
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from 'src/app/modals/modal/modal.page';
@@ -10,6 +11,7 @@ import { UUID } from 'angular2-uuid';
 import { toUUID } from 'to-uuid';
 import { AlertService } from 'ngx-alerts';
 import { Song } from 'src/app/rest/DTOModels/Song';
+import { Track } from 'src/app/rest/DTOModels/track';
 
 @Component({
   selector: 'app-overview',
@@ -24,12 +26,63 @@ export class OverviewComponent implements OnInit {
   partyName = "";
   private currentSessionId: UUID;
   currentPlaylist;
+  currentTrackURI: string;
+  shownPlaylist: Track[] = [];
+  player: Spotify.Player;
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
               private stateService: StateService, private alertService: AlertService ) { }
 
-  ngOnInit() {
-    this.onPageLoad();
+  async ngOnInit() {
+    await this.onPageLoad();
+    const playerInit = {
+      name: 'Partyspot Player',
+      getOAuthToken: async callback => {
+        let accessToken = '';
+        await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
+          accessToken = res.toString();
+          console.log(accessToken);
+          callback(accessToken);
+          this.player = new Spotify.Player(playerInit);
+          this.player.connect().then(success => {
+            if (success) {
+              console.log('The Web Playback SDK successfully connected to Spotify!');
+            }
+          })
+        });
+      },
+      volume: 0.5
+    }
+
+
+    const play = ({
+      spotify_uri,
+      playerInstance: {
+        _options: {
+          getOAuthToken
+        }
+      }
+    }) => {
+      getOAuthToken(access_token => {
+        fetch(`https://api.spotify.com/v1/me/player/play`, {
+          method: 'PUT',
+          body: JSON.stringify({ uris: [spotify_uri] }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+          },
+        });
+      });
+    };
+    
+    // currentTrackUri has to be updated with first element in shown playlist
+    this.currentTrackURI = 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr';
+    if (this.isAdmin && false) {
+      play({
+        playerInstance: new Spotify.Player(playerInit),
+        spotify_uri: this.currentTrackURI,
+      });
+    }
   }
 
   async showModal() {
@@ -59,9 +112,9 @@ export class OverviewComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  onPageLoad() {
+  async onPageLoad() {
     if (window.location.search.length > 0) {
-      this.handleRedirect();
+      await this.handleRedirect();
     } else {
       this.alertService.danger('Bitte loggen Sie sich ein!');
       this.router.navigate(['/login']);
@@ -79,10 +132,6 @@ export class OverviewComponent implements OnInit {
       this.inviteCode = results[0];
       const adminId = results[1].replaceAll('-', '')
       this.stateService.addAdminId(this.currentSessionId, toUUID(adminId));
-      await this.restService.getDefaultPlaylist(results[1]).then(res => {
-        this.currentPlaylist = res;
-        console.log(this.currentPlaylist);
-      });
     });
   }
 
@@ -112,6 +161,70 @@ export class OverviewComponent implements OnInit {
       });
     }
     return searchResults;
+  }
+
+  async addSong() {
+    let userId;
+    if (this.isAdmin) {
+      userId = this.stateService.getAdminId(this.currentSessionId);
+    } else {
+      userId = sessionStorage.getItem("currentUser");
+    }
+    await this.restService.addSongToPlaylist('5UFbfXuj4TjirzmcvTFBBy', userId).then(res => {
+      const addedSong = res as Track;
+      console.log(addedSong);
+      this.shownPlaylist.push(addedSong);
+      this.refreshPlayer();
+    });
+  }
+
+  refreshPlayer() {
+
+    const playerInit = {
+      name: 'Partyspot Player',
+      getOAuthToken: async callback => {
+        let accessToken = '';
+        await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
+          accessToken = res.toString();
+          console.log(accessToken);
+          callback(accessToken);
+          this.player = new Spotify.Player(playerInit);
+          this.player.connect().then(success => {
+            if (success) {
+              console.log('The Web Playback SDK successfully connected to Spotify!');
+            }
+          })
+        });
+      },
+      volume: 0.5
+    }
+
+
+    const play = ({
+      spotify_uri,
+      playerInstance: {
+        _options: {
+          getOAuthToken
+        }
+      }
+    }) => {
+      getOAuthToken(access_token => {
+        fetch(`https://api.spotify.com/v1/me/player/play`, {
+          method: 'PUT',
+          body: JSON.stringify({ uris: [spotify_uri] }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+          },
+        });
+      });
+    };
+
+    this.currentTrackURI = this.shownPlaylist[0].id;
+    play({
+      playerInstance: new Spotify.Player(playerInit),
+      spotify_uri: this.currentTrackURI,
+    });
   }
 
 }

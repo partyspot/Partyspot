@@ -64,4 +64,14 @@ public class SpotifyAPI {
 		System.out.println(foundSongs);
 		return foundSongs;
 	}
+	
+	public Track getSong(String spotifyURI, String userIdString) throws Exception {
+		UUID userID = UUID.fromString(userIdString);
+		User user = userService.getUser(userID);
+		Party party = user.getParty();
+		String accessToken = party.getToken();
+		SpotifyApi spotifyApi = new SpotifyApi.Builder()
+			    .setAccessToken(accessToken).build();
+		return spotifyApi.getTrack(spotifyURI).build().execute();
+	}
 }

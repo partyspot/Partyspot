@@ -35,4 +35,12 @@ export class RestService {
         return this.http.get('http://localhost:8080/Backend/rest/party/searchSongs?searchString=' + searchString + '&userId=' + userId.toString()).toPromise();
     }
 
+    async addSongToPlaylist(spotifyURI: string, userId: UUID) {
+        return this.http.get('http://localhost:8080/Backend/rest/party/addSong?spotifyURI=' + spotifyURI + '&userId=' + userId.toString()).toPromise();
+    }
+
+    async getTokenWithPartyCode(partycode: string) {
+        return this.http.get('http://localhost:8080/Backend/rest/party/getPartyToken?partycode=' + partycode).toPromise();
+    }
+
 }

@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
     "@ionic/angular": "^6.0.0",
+    "@types/spotify-web-playback-sdk": "^0.1.12",
     "angular2-uuid": "^1.1.1",
     "bootstrap": "^5.2.0-beta1",
     "ngx-alerts": "^10.1.3",
