@@ -57,7 +57,8 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE createParty(IN partyId VARCHAR(36), IN partyName VARCHAR(100), IN partyCode VARCHAR(10), IN partyToken VARCHAR(1000))
 BEGIN
-    insert into party (id, name, code, token) values (UUID_TO_BIN(partyId), partyName, partyCode, partyToken);
+    INSERT INTO party (id, name, code, token) 
+	VALUES (UUID_TO_BIN(partyId), partyName, partyCode, partyToken);
 END //
     
 DELIMITER ;
@@ -127,6 +128,33 @@ END //
 DELIMITER ;
 
 
+-- Song
+
+DELIMITER //
+CREATE PROCEDURE getAllSongs()
+BEGIN
+    select bin_to_uuid(id) as id, name, spotify_uri, genre from song;
+END //
+    
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE getSongById(IN songId VARCHAR(36))
+BEGIN
+    select bin_to_uuid(id) as id, name, spotify_uri, genre from song where id = uuid_to_bin(songId);
+END //
+    
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE getSongByName(IN songName VARCHAR(255))
+BEGIN
+    select bin_to_uuid(id) as id, name, spotify_uri, genre from song where name = songName;
+END //
+    
+DELIMITER ;
+
+
 -- update Party Token
 DELIMITER //
 CREATE PROCEDURE updatePartyToken(IN newToken VARCHAR(1000), IN partyId VARCHAR(36))
@@ -151,6 +179,18 @@ DELIMITER //
 CREATE PROCEDURE createPlaylist(IN playlistId VARCHAR(36), IN playlistName VARCHAR(100), IN partyId VARCHAR(36), IN spotifyUri VARCHAR(255))
 BEGIN
     insert into Playlist (id, name, party_id, spotify_uri) values (UUID_TO_BIN(playlistId), playlistName, UUID_TO_BIN(partyId), spotifyUri);
+END //
+    
+DELIMITER ;
+
+
+-- getVoting
+
+DELIMITER //
+CREATE PROCEDURE getVotingView(IN partyId VARCHAR(36))
+BEGIN
+    select BIN_TO_UUID(song_id) as song_id, voting from voting_view where party_id = uuid_to_bin(partyId)
+    order by voting desc;
 END //
     
 DELIMITER ;
