@@ -26,4 +26,8 @@ export class RestService {
         return this.http.get('http://localhost:8080/Backend/rest/db/getDefaultPlaylist?adminId=' + adminId.toString()).toPromise();
     }
 
+    async getSearchResult(searchString: string, userId: UUID) {
+        return this.http.get('http://localhost:8080/Backend/rest/party/searchSongs?searchString=' + searchString + '&userId=' + userId.toString()).toPromise();
+    }
+
 }

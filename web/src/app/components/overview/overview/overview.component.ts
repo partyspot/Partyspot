@@ -94,4 +94,14 @@ export class OverviewComponent implements OnInit {
     return code;
   }
 
+  getSearchResults(searchString: string) {
+    let searchResults;
+    if (this.isAdmin) {
+      const userId = this.stateService.getAdminId(this.currentSessionId);
+      this.restService.getSearchResult(searchString, userId).then(res => {
+        searchResults = res;
+      });
+    }
+  }
+
 }
