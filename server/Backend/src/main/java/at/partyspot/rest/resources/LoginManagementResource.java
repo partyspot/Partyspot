@@ -12,6 +12,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import at.partyspot.Generators.CodeGenerator;
+import at.partyspot.db.access.PartyService;
+import at.partyspot.db.access.UserService;
 
 // manages login according to userrole
 @Path("/login")
@@ -19,6 +21,12 @@ public class LoginManagementResource {
 
 	@EJB
 	SpotifyAPITokenManager spotifyAPITokenManager;
+	
+	@EJB
+	UserService userService;
+	
+	@EJB
+	PartyService partyService;
 
 	// retrieving the code from the redirectURI from frontend and calling function
 	// createNew
@@ -48,8 +56,11 @@ public class LoginManagementResource {
 	@Path("newGuest")
 	@POST
 	@Consumes("text/plain")
-	public Response createNewGuest(@QueryParam("partycode") String partycode) throws Exception {
+	@Produces("text/plain")
+	public Response createNewGuest(@QueryParam("partycode") String partycode, @QueryParam("username") String username) throws Exception {
 		// Services create new User and assign to party with partycode
+		//Party party = partyService.get;
+		userService.createUser(username, UUID.fromString("00000000-0000-0000-0000-000000000002"), null);
 		return Response.ok().entity("New user joined a party!").build();
 	}
 

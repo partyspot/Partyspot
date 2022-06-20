@@ -28,9 +28,12 @@ export class LoginComponent implements OnInit {
 
   }
 
-  guestLogin(): void {
+  async guestLogin(): Promise<void> {
     console.log(this.guestCode.nativeElement.value);
-    this.router.navigate(['/overview']);
+    await this.restService.guestLogin(this.guestCode.nativeElement.value).then( userId => {
+      sessionStorage.setItem("currentUser", userId);
+      this.router.navigate(['/overview']);
+    });
   }
 
 }

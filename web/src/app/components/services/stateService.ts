@@ -17,9 +17,9 @@ export class StateService {
     this.isLoggedIn = true;
   }
 
-  public getAdminId(sessionId: UUID) {
+  public getAdminId(sessionId: UUID): UUID {
     this.initializeStorageValues();
-    this.loggedInAdminIds.get(sessionId);
+    return this.loggedInAdminIds.get(sessionId);
   }
 
   public removeAdminId(sessionId: UUID) {
