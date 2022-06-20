@@ -196,4 +196,15 @@ END //
 DELIMITER ;
 
 
+-- getPartyByCode
+
+DELIMITER //
+CREATE PROCEDURE getPartyByCode(IN partyCode VARCHAR(10))
+BEGIN
+    select bin_to_uuid(id) as id, name, code, token from party where code = partyCode;
+END //
+    
+DELIMITER ;
+
+
 

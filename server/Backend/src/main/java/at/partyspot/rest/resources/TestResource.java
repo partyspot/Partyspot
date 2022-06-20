@@ -1,8 +1,5 @@
 package at.partyspot.rest.resources;
 
-import java.util.List;
-import java.util.UUID;
-
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,8 +10,6 @@ import at.partyspot.db.access.PartyService;
 import at.partyspot.db.access.PlaylistService;
 import at.partyspot.db.access.SongService;
 import at.partyspot.db.access.VotingService;
-import at.partyspot.db.model.Song;
-import at.partyspot.db.model.VotingView;
 
 @Path("/testpath")
 public class TestResource {
@@ -33,7 +28,7 @@ public class TestResource {
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		//UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-		//Song obj1 = songService.getSong("song1");
+		//Party obj1 = partyService.getPartyByCode("0000000001");
 		//Song obj2 = songService.getSong(UUID.fromString("00000000-0000-0000-0000-000000000001"));
 		//List<Song> songList = songService.getAll();
 		//List<VotingView> list1 = votingService.getVoting(id);

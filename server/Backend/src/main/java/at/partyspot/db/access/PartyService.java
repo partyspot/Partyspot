@@ -102,5 +102,23 @@ public class PartyService {
 		statement.executeQuery();
 		conn.close();		
 	}
+	
+	public Party getPartyByCode(String code) throws Exception {
+		Party party = new Party();
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL getPartyByCode(?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, code);
+		ResultSet resultSet = statement.executeQuery();
+		if (resultSet.next()) {
+			UUID uuid = UUID.fromString(resultSet.getString("id"));
+			party.setId(uuid);
+			party.setName(resultSet.getString("name"));
+			party.setCode(resultSet.getString("code"));
+			party.setToken(resultSet.getString("token"));
+		}
+		conn.close();
+		return party;
+	}
 
 }
