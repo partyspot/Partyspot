@@ -33,6 +33,7 @@ export class OverviewComponent implements OnInit {
   model: any;
   searchResults: any;
   restDefaultPlaylist;
+  rows: [];
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
     private stateService: StateService, private alertService: AlertService) { }
@@ -136,7 +137,7 @@ export class OverviewComponent implements OnInit {
       userId = sessionStorage.getItem("currentUser");
     }
     // create song for testing
-    let song: Song = {id: null, genre: null, name: null, spotifyUri: null};
+    let song: Song = { id: null, genre: null, name: null, spotifyUri: null };
     song.id = UUID.UUID();
     song.genre = null;
     song.name = 'Testsong';
@@ -160,6 +161,14 @@ export class OverviewComponent implements OnInit {
       view = res;
       console.log(view);
     });
+  }
+
+  upVote() {
+    console.log("upVote")
+  }
+
+  downVote() {
+    console.log("downVote")
   }
 
 }

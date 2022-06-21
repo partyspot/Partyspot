@@ -39,7 +39,15 @@
   <div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
   <div class="ps-card">
     <div class="ps-body">
-      Hier dann Übersicht
+      <div>
+        <ngx-datatable class="bootstrap" [columnMode]="flex" [rows]="rows">
+          <ngx-datatable-column name="Songtitel" [flexGrow]="5"></ngx-datatable-column>
+          <ngx-datatable-column name="Voting" [flexGrow]="1">
+            <i class="fas fa-thumbs-up" (click)="upVote()"></i>
+            <i class="fas fa-thumbs-down" (click)="downVote()"></i>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
     </div>
   </div>
 

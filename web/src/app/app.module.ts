@@ -15,6 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RestService } from './rest/restService/restService';
 import { StateService } from './components/services/stateService';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable'
 
 // Imports for Alerts
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -30,6 +31,7 @@ import { AlertModule } from 'ngx-alerts';
     IonicModule.forRoot(),
     AppRoutingModule,
     ModalPageModule,
+    NgxDatatableModule,
     FormsModule,
     NgbModule,
     BrowserAnimationsModule,
