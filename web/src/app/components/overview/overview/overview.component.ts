@@ -33,7 +33,7 @@ export class OverviewComponent implements OnInit {
   model: any;
   searchResults: any;
   restDefaultPlaylist;
-  rows: [];
+  rows: VotingView[];
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
     private stateService: StateService, private alertService: AlertService) { }
@@ -175,10 +175,9 @@ export class OverviewComponent implements OnInit {
     } else {
       userId = sessionStorage.getItem("currentUser");
     }
-    let view;
     this.restService.getVotingView(userId).then(res => {
-      view = res as VotingView[];
-      console.log(view);
+      this.rows = res as VotingView[];
+      console.log(this.rows);
     });
   }
 
@@ -189,8 +188,8 @@ export class OverviewComponent implements OnInit {
   downVote() {
     console.log("downVote")
   }
-  
-  async waitForSpotifyWebPlaybackSDKToLoad () {
+
+  async waitForSpotifyWebPlaybackSDKToLoad() {
     return new Promise(resolve => {
       console.log("IM HERE0");
       if (window.Spotify) {
