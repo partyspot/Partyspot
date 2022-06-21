@@ -60,6 +60,7 @@ song_id binary(16),
 voting integer,
 FOREIGN KEY (user_id) REFERENCES puser (id),
 FOREIGN KEY (song_id) REFERENCES song (id)
+UNIQUE KEY(user_id, song_id) 
 );
 
 alter table playlist add column spotify_uri varchar(255);
@@ -123,27 +124,6 @@ insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0
 insert into  song (id, name, spotify_uri, genre) values (uuid_to_bin('00000000-0000-0000-0000-000000000020'), 'song20', null, 'Blues');
 
 
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000002'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000003'), uuid_to_bin('00000000-0000-0000-0000-000000000003'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000004'), uuid_to_bin('00000000-0000-0000-0000-000000000004'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000005'), uuid_to_bin('00000000-0000-0000-0000-000000000005'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000006'), uuid_to_bin('00000000-0000-0000-0000-000000000006'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000007'), uuid_to_bin('00000000-0000-0000-0000-000000000007'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000008'), uuid_to_bin('00000000-0000-0000-0000-000000000008'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000009'), uuid_to_bin('00000000-0000-0000-0000-000000000009'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000010'), uuid_to_bin('00000000-0000-0000-0000-000000000010'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000011'), uuid_to_bin('00000000-0000-0000-0000-000000000011'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000012'), uuid_to_bin('00000000-0000-0000-0000-000000000012'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000013'), uuid_to_bin('00000000-0000-0000-0000-000000000013'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000014'), uuid_to_bin('00000000-0000-0000-0000-000000000014'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000015'), uuid_to_bin('00000000-0000-0000-0000-000000000015'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000016'), uuid_to_bin('00000000-0000-0000-0000-000000000016'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000017'), uuid_to_bin('00000000-0000-0000-0000-000000000017'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000018'), uuid_to_bin('00000000-0000-0000-0000-000000000018'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000019'), uuid_to_bin('00000000-0000-0000-0000-000000000019'), 1);
-insert into user__song (user_id, song_id, voting) values (uuid_to_bin('00000000-0000-0000-0000-000000000020'), uuid_to_bin('00000000-0000-0000-0000-000000000020'), 1);
-
 
 insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000001'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 08:03:000');
 insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000002'), uuid_to_bin('00000000-0000-0000-0000-000000000000'), '2022-06-14 08:10:000');
@@ -165,3 +145,34 @@ insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bi
 insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000018'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 08:34:000');
 insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000019'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 10:11:000');
 insert into song__playlist (song_id, playlist_id, added_date) values (uuid_to_bin('00000000-0000-0000-0000-000000000020'), uuid_to_bin('00000000-0000-0000-0000-000000000001'), '2022-06-14 09:09:000');
+
+
+insert into user__song (user_id, song_id, voting)
+select u.id, sp.song_id, 0 from song__playlist sp, puser u, playlist p
+where playlist_id = uuid_to_bin('00000000-0000-0000-0000-000000000000')
+and p.party_id = u.party_id
+and sp.playlist_id = p.id;
+
+
+insert into user__song (user_id, song_id, voting)
+select u.id, sp.song_id, 0 from song__playlist sp, puser u, playlist p
+where playlist_id = uuid_to_bin('00000000-0000-0000-0000-000000000001')
+and p.party_id = u.party_id
+and sp.playlist_id = p.id;
+
+update user__song us, puser p set us.voting = 1
+where us.user_id = p.id
+and p.name in ('admin1', 'admin2');
+
+
+-- View for displaying voting
+
+create view voting_view AS
+select s.id as song_id, sum(us.voting) as voting, p.id as party_id 
+from song s, user__song us, song__playlist sp, playlist pl, party p
+where s.id = us.song_id
+and us.song_id = sp.song_id
+and sp.playlist_id = pl.id
+and pl.party_id = p.id
+group by s.id;
+
