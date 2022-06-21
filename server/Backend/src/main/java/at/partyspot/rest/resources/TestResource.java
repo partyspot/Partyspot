@@ -36,13 +36,14 @@ public class TestResource {
 	@GET
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
-		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-		Song song = new Song();
-		song.setId(UUID.randomUUID());
-		song.setName("SongFromBackend");
-		song.setSpotifyUri("BLABLA");
-		User user = userService.getUser("user14");
-		songService.addSong(song, UUID.fromString("00000000-0000-0000-0000-000000000000"), user);
+		userService.connectUserWithSongs(UUID.fromString("00000000-0000-0000-0000-000000000013"), UUID.fromString("00000000-0000-0000-0000-000000000001"));
+//		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
+//		Song song = new Song();
+//		song.setId(UUID.randomUUID());
+//		song.setName("SongFromBackend");
+//		song.setSpotifyUri("BLABLA");
+//		User user = userService.getUser("user14");
+//		songService.addSong(song, UUID.fromString("00000000-0000-0000-0000-000000000000"), user);
 		return Response.ok().entity("Hello World!").build();
 	}
 	

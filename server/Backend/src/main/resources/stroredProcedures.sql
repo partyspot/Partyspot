@@ -226,3 +226,20 @@ DELIMITER ;
 
 
 
+-- User-Song Connection
+
+DELIMITER //
+CREATE PROCEDURE connectUserToSongs(IN userId VARCHAR(36), IN partyId VARCHAR(36))
+BEGIN
+	INSERT IGNORE INTO user__song (song_id, user_id, voting)
+    select s.id, UUID_TO_BIN(userId), 0 from party p, playlist pl, song__playlist sp, song s
+	where p.id = UUID_TO_BIN(partyId)
+	and pl.party_id = p.id
+	and sp.playlist_id = pl.id
+	and sp.song_id = s.id;
+END //
+    
+DELIMITER ;
+
+
+
