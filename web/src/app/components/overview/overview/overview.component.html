@@ -4,40 +4,42 @@
     window.onSpotifyWebPlaybackSDKReady = () => {
       // You can now initialize Spotify.Player and use the SDK
     };
-    </script>
 
-<div class="nav">
-  <img class="logo" src="/assets/img/logo.png">
-  <div class="spacer">
-    <!-- will be removed  if Headline doesn't fit on mobile -->
-    <div class="main-header">Partyspot</div>
-  </div>
-  <div *ngIf="isAdmin" style="display: flex">
-    <i class="fas fa-music" (click)="showModal()" title="Party bearbeiten"></i>
-    <i class="fas fa-users" (click)="showGuestViewModal()" title="Gästeübersicht"></i>
-    <i class="fas fa-users" (click)="addSong()" title="Teste Song hinzufügen"></i>
-    <i class="fas fa-users" (click)="getSearchResults('Bad')" title="Teste Suche"></i>
-    <!-- might get implemented in the future
+  </script>
+
+  <div class="nav">
+    <img class="logo" src="/assets/img/logo.png">
+    <div class="spacer">
+      <!-- will be removed  if Headline doesn't fit on mobile -->
+      <div class="main-header">Partyspot</div>
+    </div>
+    <div *ngIf="isAdmin" style="display: flex">
+      <i class="fas fa-music" (click)="showModal()" title="Party bearbeiten"></i>
+      <i class="fas fa-users" (click)="showGuestViewModal()" title="Gästeübersicht"></i>
+      <i class="fas fa-users" (click)="addSong()" title="Teste Song hinzufügen"></i>
+      <i class="fas fa-users" (click)="getSearchResults('Bad')" title="Teste Suche"></i>
+      <!-- might get implemented in the future
         function to invite guests with an automated e-mail
     <i class="fas fa-user-edit" (click)="showGuestModal()" title="Gäste einladen"></i> -->
+    </div>
+    <i class="fas fa-sign-out-alt" style="color: var(--ion-color-danger); padding-right: 1rem" (click)="logout()"
+      title="Ausloggen"></i>
   </div>
-  <i class="fas fa-sign-out-alt" style="color: var(--ion-color-danger); padding-right: 1rem" (click)="logout()"
-    title="Ausloggen"></i>
-</div>
 
-<div *ngIf="isAdmin" class="party-name">
-  <!-- padding-top: 4px aligns the invitecode vertically with the input of the search field -->
-  <div style="padding-top: 4px" title="Code um Gäste einzuladen">{{inviteCode}}</div>
-  <!-- margin-left: auto aligns the search field to the right -->
-  <div style="margin-left: auto">
-    <input type="text" id="songSearch" placeholder="Lied suchen" name="songSearch" #songSearch style="width: 200px">
+  <div *ngIf="isAdmin" class="party-name">
+    <!-- padding-top: 4px aligns the invitecode vertically with the input of the search field -->
+    <div style="padding-top: 4px" title="Code um Gäste einzuladen">{{inviteCode}}</div>
+    <!-- margin-left: auto aligns the search field to the right -->
+    <div style="margin-left: auto">
+      <input type="text" id="songSearch" placeholder="Lied suchen" name="songSearch"
+        (keydown)="getSearchResults(songSearch.value)" #songSearch style="width: 200px">
+    </div>
   </div>
-</div>
-<div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
-<div class="ps-card">
-  <div class="ps-body">
-    Hier dann Übersicht
+  <div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
+  <div class="ps-card">
+    <div class="ps-body">
+      Hier dann Übersicht
+    </div>
   </div>
-</div>
 
 </body>

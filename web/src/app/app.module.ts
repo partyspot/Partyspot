@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,7 @@ import { OverviewComponent } from './components/overview/overview/overview.compo
 import { LoginComponent } from './components/login/login.component';
 import { RestService } from './rest/restService/restService';
 import { StateService } from './components/services/stateService';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Imports for Alerts
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -30,7 +31,9 @@ import { AlertModule } from 'ngx-alerts';
     AppRoutingModule,
     ModalPageModule,
     FormsModule,
+    NgbModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AlertModule.forRoot({ maxMessages: 5, timeout: 5000, positionX: 'left' })
   ],
   providers: [

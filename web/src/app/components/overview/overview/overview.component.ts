@@ -29,9 +29,11 @@ export class OverviewComponent implements OnInit {
   currentTrackURI: string;
   shownPlaylist: Track[] = [];
   player: Spotify.Player;
+  model: any;
+  searchResults: any;
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
-              private stateService: StateService, private alertService: AlertService ) { }
+    private stateService: StateService, private alertService: AlertService) { }
 
   async ngOnInit() {
     await this.onPageLoad();
@@ -54,7 +56,6 @@ export class OverviewComponent implements OnInit {
       volume: 0.5
     }
 
-
     const play = ({
       spotify_uri,
       playerInstance: {
@@ -74,7 +75,7 @@ export class OverviewComponent implements OnInit {
         });
       });
     };
-    
+
     // currentTrackUri has to be updated with first element in shown playlist
     this.currentTrackURI = 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr';
     if (this.isAdmin && false) {
@@ -146,21 +147,22 @@ export class OverviewComponent implements OnInit {
   }
 
   async getSearchResults(searchString: string) {
-    let searchResults;
-    if (this.isAdmin) {
-      const userId = this.stateService.getAdminId(this.currentSessionId);
-      await this.restService.getSearchResult(searchString, userId).then(res => {
-        searchResults = res as Song[];
-        console.log(searchResults);
-      });
-    } else {
-      const userId = sessionStorage.getItem("currentUser");
-      await this.restService.getSearchResult(searchString, userId).then(res => {
-        searchResults = res as Song[];
-        console.log(searchResults);
-      });
+    if (searchString.length > 2) {
+      if (this.isAdmin) {
+        const userId = this.stateService.getAdminId(this.currentSessionId);
+        await this.restService.getSearchResult(searchString, userId).then(res => {
+          this.searchResults = res as Song[];
+          console.log(this.searchResults);
+        });
+      } else {
+        const userId = sessionStorage.getItem("currentUser");
+        await this.restService.getSearchResult(searchString, userId).then(res => {
+          this.searchResults = res as Song[];
+          console.log(this.searchResults);
+        });
+      }
+      return this.searchResults;
     }
-    return searchResults;
   }
 
   async addSong() {
