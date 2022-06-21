@@ -4,15 +4,16 @@ import java.util.UUID;
 
 public class VotingView {
 
-	private UUID songId;
+	private Song song;
 	private int voting;
 	
 	
-	public UUID getSongId() {
-		return songId;
+	
+	public Song getSong() {
+		return song;
 	}
-	public void setSongId(UUID songId) {
-		this.songId = songId;
+	public void setSong(Song song) {
+		this.song = song;
 	}
 	public int getVoting() {
 		return voting;

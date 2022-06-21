@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import at.partyspot.db.model.Song;
 import at.partyspot.db.model.VotingView;
 
 @Stateless
@@ -17,6 +18,8 @@ public class VotingService {
 	
 	@EJB
 	DatabaseService databaseService;
+	@EJB
+	SongService songService;
 
 	public List<VotingView> getVoting(UUID partyId) throws Exception{
 		List<VotingView> voting = new ArrayList<VotingView>();
@@ -29,7 +32,8 @@ public class VotingService {
 		while(resultSet.next()) {
 			VotingView view = new VotingView();
 			UUID uuid = UUID.fromString(resultSet.getString("song_id"));
-			view.setSongId(uuid);
+			Song song = songService.getSong(uuid);
+			view.setSong(song);
 			view.setVoting(resultSet.getInt("voting"));
 			voting.add(view);
 		}
