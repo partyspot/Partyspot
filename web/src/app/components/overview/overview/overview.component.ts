@@ -13,6 +13,7 @@ import { AlertService } from 'ngx-alerts';
 import { Song } from 'src/app/rest/DTOModels/Song';
 import { Track } from 'src/app/rest/DTOModels/track';
 import { VotingView } from 'src/app/rest/DTOModels/votingview';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-overview',
@@ -34,9 +35,14 @@ export class OverviewComponent implements OnInit {
   searchResults: any;
   restDefaultPlaylist;
   rows: VotingView[];
+  iframeSrc: SafeUrl;
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
-    private stateService: StateService, private alertService: AlertService) { }
+    private stateService: StateService, private alertService: AlertService, private sanitizer: DomSanitizer) {
+      let id = '5YHdRUzLWIJCBv7oSlItvA';
+      let url = 'https://open.spotify.com/embed/track/'+id +'?utm_source=generator&theme=0';
+      this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+     }
 
   async ngOnInit() {
     await this.onPageLoad();

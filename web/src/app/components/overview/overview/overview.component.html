@@ -39,7 +39,12 @@
   <div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
   <div class="ps-card">
     <div class="ps-body">
+      <iframe style="border-radius:12px"
+      [src]="iframeSrc" width="50%"
+        height="80" frameBorder="0" allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
       <div>
+        Code anzeigen
         <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows" [headerHeight]="50"
           [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}">
           <ngx-datatable-column name="Song" [flexGrow]="5">

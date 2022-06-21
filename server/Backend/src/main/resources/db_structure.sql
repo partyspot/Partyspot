@@ -59,7 +59,7 @@ user_id binary(16),
 song_id binary(16),
 voting integer,
 FOREIGN KEY (user_id) REFERENCES puser (id),
-FOREIGN KEY (song_id) REFERENCES song (id)
+FOREIGN KEY (song_id) REFERENCES song (id),
 UNIQUE KEY(user_id, song_id) 
 );
 
