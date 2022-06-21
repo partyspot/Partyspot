@@ -37,6 +37,7 @@ public class TestResource {
 	@Produces("text/plain")
 	public Response getTestString() throws Exception {
 		userService.connectUserWithSongs(UUID.fromString("00000000-0000-0000-0000-000000000013"), UUID.fromString("00000000-0000-0000-0000-000000000001"));
+		songService.deleteSong(UUID.fromString("00000000-0000-0000-0000-000000000019"));
 //		UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
 //		Song song = new Song();
 //		song.setId(UUID.randomUUID());
