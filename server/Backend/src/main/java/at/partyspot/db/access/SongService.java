@@ -90,5 +90,14 @@ public class SongService {
 		statement.executeQuery();
 		conn.close();		
 	}
+	
+	public void deleteSong(UUID songId) throws Exception {
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL deleteSong(?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, songId.toString());
+		statement.executeQuery();
+		conn.close();	
+	}
 
 }

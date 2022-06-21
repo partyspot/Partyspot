@@ -106,5 +106,15 @@ public class UserService extends DatabaseService {
 		conn.close();
 		return user;
 	}
+	
+	public void connectUserWithSongs(UUID userId, UUID songId) throws Exception {
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL connectUserToSongs(?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, userId.toString());
+		statement.setString(2, songId.toString());
+		statement.executeQuery();
+		conn.close();
+	}
 
 }
