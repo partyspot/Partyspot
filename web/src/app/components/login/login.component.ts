@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
       redirectURI = res;
     });
     console.log(redirectURI);
+    sessionStorage.setItem("isAdmin", "y");
     window.location.href = redirectURI;
 
   }
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
     console.log(this.guestCode.nativeElement.value);
     await this.restService.guestLogin(this.guestCode.nativeElement.value).then( userId => {
       sessionStorage.setItem("currentUser", userId);
+      sessionStorage.setItem("isAdmin", "n");
       this.router.navigate(['/overview']);
     });
   }

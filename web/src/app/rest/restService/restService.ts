@@ -28,19 +28,19 @@ export class RestService {
     }
 
     async getDefaultPlaylist(adminId: UUID) {
-        return this.http.get('http://localhost:8080/Backend/rest/db/getDefaultPlaylist?adminId=' + adminId.toString()).toPromise();
+        return this.http.get('http://localhost:8080/Backend/rest/db/getDefaultPlaylist?adminId=' + adminId.toString(), this.options).toPromise();
     }
 
     async getSearchResult(searchString: string, userId: UUID) {
         return this.http.get('http://localhost:8080/Backend/rest/party/searchSongs?searchString=' + searchString + '&userId=' + userId.toString()).toPromise();
     }
 
-    async addSongToPlaylist(spotifyURI: string, userId: UUID) {
-        return this.http.get('http://localhost:8080/Backend/rest/party/addSong?spotifyURI=' + spotifyURI + '&userId=' + userId.toString()).toPromise();
+    async addSongToPlaylist(song: Song, userId: UUID) {
+        return this.http.post('http://localhost:8080/Backend/rest/party/addSong?userId=' + userId.toString(), song).toPromise();
     }
 
     async getTokenWithPartyCode(partycode: string) {
-        return this.http.get('http://localhost:8080/Backend/rest/party/getPartyToken?partycode=' + partycode).toPromise();
+        return this.http.get('http://localhost:8080/Backend/rest/party/getPartyToken?partycode=' + partycode, this.options).toPromise();
     }
 
 }

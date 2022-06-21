@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Song;
 import at.partyspot.db.model.User;
 
