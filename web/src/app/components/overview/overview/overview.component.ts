@@ -176,7 +176,7 @@ export class OverviewComponent implements OnInit {
     }
     let view;
     this.restService.getVotingView(userId).then(res => {
-      view = res as VotingView;
+      view = res as VotingView[];
       console.log(view);
     });
   }
