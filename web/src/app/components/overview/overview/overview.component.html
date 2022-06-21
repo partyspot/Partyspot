@@ -32,7 +32,7 @@
     <div style="padding-top: 4px" title="Code um Gäste einzuladen">{{inviteCode}}</div>
     <!-- margin-left: auto aligns the search field to the right -->
     <div style="margin-left: auto">
-      <input type="text" id="songSearch" placeholder="Lied suchen" name="songSearch"
+      <input type="text" id="songSearch" placeholder="Song suchen" name="songSearch"
         (keydown)="getSearchResults(songSearch.value)" #songSearch style="width: 200px">
     </div>
   </div>
@@ -40,15 +40,20 @@
   <div class="ps-card">
     <div class="ps-body">
       <div>
-        <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows">
+        <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows" [headerHeight]="50"
+          [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}">
           <ngx-datatable-column name="Song" [flexGrow]="5">
+            <!-- WORK IN PROGRESS
+            <ng-template let-value="song" ngx-datatable-cell-template>
+              <div style="padding-left: 1rem">{{song}}</div>
+            </ng-template>-->
           </ngx-datatable-column>
           <ngx-datatable-column name="Voting" [flexGrow]="1" [minWidth]="125">
             <ng-template let-value="voting" ngx-datatable-cell-template>
-              <div>777
-                <i class="fas fa-thumbs-up" (click)="upVote()" style="padding: 0 1rem;"></i>
-                <i class="fas fa-thumbs-down" (click)="downVote()"
-                  style="color: var(--ion-color-danger); padding: none;"></i>
+              <div style="display: flex">
+                <i class="fas fa-thumbs-up" (click)="upVote()"></i>
+                <i class="fas fa-thumbs-down" (click)="downVote()" style="color: var(--ion-color-danger)"></i>
+                <div>777</div>
               </div>
             </ng-template>
           </ngx-datatable-column>
