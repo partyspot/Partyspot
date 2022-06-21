@@ -12,7 +12,7 @@ import { toUUID } from 'to-uuid';
 import { AlertService } from 'ngx-alerts';
 import { Song } from 'src/app/rest/DTOModels/Song';
 import { Track } from 'src/app/rest/DTOModels/track';
-import { JsonpClientBackend } from '@angular/common/http';
+import { VotingView } from 'src/app/rest/DTOModels/votingview';
 
 @Component({
   selector: 'app-overview',
@@ -39,6 +39,25 @@ export class OverviewComponent implements OnInit {
 
   async ngOnInit() {
     await this.onPageLoad();
+    await this.waitForSpotifyWebPlaybackSDKToLoad();
+    let token;
+    await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
+      token = res;
+    });
+    const sdk = new window.Spotify.Player({
+      name: "Web Playback SDK",
+      volume: 1.0,
+      getOAuthToken: callback => { callback(token); }
+    });
+    sdk.on("player_state_changed", state => {
+      // Update UI with playback state changes
+    });
+    let connected = await sdk.connect();
+    if (connected) {
+      await sdk.resume();
+      await sdk.setVolume(0.5);
+      console.log("player connected!");
+    }
   }
 
   async showModal() {
@@ -157,9 +176,24 @@ export class OverviewComponent implements OnInit {
     }
     let view;
     this.restService.getVotingView(userId).then(res => {
-      view = res;
+      view = res as VotingView;
       console.log(view);
     });
   }
+
+  async waitForSpotifyWebPlaybackSDKToLoad () {
+    return new Promise(resolve => {
+      console.log("IM HERE0");
+      if (window.Spotify) {
+        console.log("IM HERE");
+        resolve(window.Spotify);
+      } else {
+        window.onSpotifyWebPlaybackSDKReady = () => {
+          resolve(window.Spotify);
+          console.log("IM HERE1");
+        };
+      }
+    });
+  };
 
 }
