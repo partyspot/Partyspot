@@ -148,4 +148,18 @@ export class OverviewComponent implements OnInit {
     });
   }
 
+  getVotingView() {
+    let userId;
+    if (this.isAdmin) {
+      userId = this.stateService.getAdminId(this.currentSessionId);
+    } else {
+      userId = sessionStorage.getItem("currentUser");
+    }
+    let view;
+    this.restService.getVotingView(userId).then(res => {
+      view = res;
+      console.log(view);
+    });
+  }
+
 }

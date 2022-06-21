@@ -43,4 +43,8 @@ export class RestService {
         return this.http.get('http://localhost:8080/Backend/rest/party/getPartyToken?partycode=' + partycode, this.options).toPromise();
     }
 
+    async getVotingView(userId: string) {
+        return this.http.get('http://localhost:8080/Backend/rest/party/getVotingView?userId=' + userId).toPromise();
+    }
+
 }

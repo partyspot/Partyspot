@@ -1,6 +1,7 @@
 package at.partyspot.rest.resources;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.ejb.EJB;
@@ -18,10 +19,12 @@ import at.partyspot.db.access.PartyService;
 import at.partyspot.db.access.PlaylistService;
 import at.partyspot.db.access.SongService;
 import at.partyspot.db.access.UserService;
+import at.partyspot.db.access.VotingService;
 import at.partyspot.db.model.Party;
 import at.partyspot.db.model.Playlist;
 import at.partyspot.db.model.Song;
 import at.partyspot.db.model.User;
+import at.partyspot.db.model.VotingView;
 import at.partyspot.spotifyAPI.SpotifyAPI;
 
 // handles user requests
@@ -42,6 +45,9 @@ public class PartyManagementResource {
 	
 	@EJB
 	PlaylistService playlistService;
+	
+	@EJB
+	VotingService votingService;
 	
 	
 	@Path("searchSongs")
@@ -75,6 +81,18 @@ public class PartyManagementResource {
 	public Response getTokenWithPartyCode(@QueryParam("partycode") String partycode) throws Exception {
 		Party party = partyService.getPartyByCode(partycode);
 		return Response.ok().entity(party.getToken()).build();
+
+	}
+	
+	
+	@Path("getVotingView")
+	@GET
+	@Consumes("text/plain")
+	@Produces("application/json")
+	public Response getVotingView(@QueryParam("userId") String userId) throws Exception {
+		User user = userService.getUser(UUID.fromString(userId));
+		List<VotingView> votingView = votingService.getVoting(user.getParty().getId());
+		return Response.ok().entity(votingView).build();
 
 	}
 
