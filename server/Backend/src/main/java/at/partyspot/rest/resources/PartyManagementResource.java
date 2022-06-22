@@ -107,5 +107,16 @@ public class PartyManagementResource {
 
 	}
 	
+	@Path("getInviteCodeForUser")
+	@GET
+	@Consumes("text/plain")
+	@Produces("application/json")
+	public Response getInviteCodeForUser(@QueryParam("userId") String userId) throws Exception {
+		User user = userService.getUser(UUID.fromString(userId));
+		String partycode = user.getParty().getCode();
+		return Response.ok().entity(partycode).build();
+
+	}
+	
 
 }

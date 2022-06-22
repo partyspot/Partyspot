@@ -7,7 +7,6 @@ export class StateService {
 
   loggedInAdminIds: Map<UUID, UUID>;
   isLoggedIn: boolean;
-  needsViewUpdateToken: Subject<string>;
 
   public addAdminId(sessionId: UUID, id: UUID) {
     this.initializeStorageValues();

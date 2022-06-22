@@ -14,6 +14,7 @@ import at.partyspot.Generators.CodeGenerator;
 import at.partyspot.db.access.PartyService;
 import at.partyspot.db.access.UserService;
 import at.partyspot.db.model.Party;
+import at.partyspot.db.model.User;
 
 // manages login according to userrole
 @Path("/login")
@@ -60,8 +61,8 @@ public class LoginManagementResource {
 	public Response createNewGuest(@QueryParam("guestCode") String partycode, @QueryParam("username") String username) throws Exception {
 		// Services create new User and assign to party with partycode
 		Party party = partyService.getPartyByCode(partycode);
-		userService.createUser(username, UUID.fromString("00000000-0000-0000-0000-000000000002"), party.getId());
-		return Response.ok().entity("New user joined a party!").build();
+		User user = userService.createUser(username, UUID.fromString("00000000-0000-0000-0000-000000000002"), party.getId());
+		return Response.ok().entity(user.getId()).build();
 	}
 
 }

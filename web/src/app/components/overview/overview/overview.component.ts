@@ -14,7 +14,7 @@ import { Song } from 'src/app/rest/DTOModels/Song';
 import { Track } from 'src/app/rest/DTOModels/track';
 import { VotingView } from 'src/app/rest/DTOModels/votingview';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Subject } from 'rxjs';
+import { Subject, Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -41,6 +41,8 @@ export class OverviewComponent implements OnInit {
   songUrlBasis2: string;
   songUrl: string;
   voteSetting: number;
+  needsPlaylistViewUpdateToken: string;
+  timerSubscription: Subscription;
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
     private stateService: StateService, private alertService: AlertService, private sanitizer: DomSanitizer) {
@@ -53,9 +55,13 @@ export class OverviewComponent implements OnInit {
 
   async ngOnInit() {
     await this.onPageLoad();
-    this.stateService.needsViewUpdateToken.subscribe(() => {
-      this.getVotingView();
-    });
+    // timer call the function immediately and every 5 seconds 
+    setInterval(()=> {
+      if (this.needsPlaylistViewUpdateToken !== localStorage.getItem(this.inviteCode)) {
+        this.needsPlaylistViewUpdateToken = localStorage.getItem(this.inviteCode);
+        this.getVotingView();
+      }
+     }, 5000); 
     await this.waitForSpotifyWebPlaybackSDKToLoad();
     let token;
     await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
@@ -107,17 +113,20 @@ export class OverviewComponent implements OnInit {
   async onPageLoad() {
     if (sessionStorage.getItem("isAdmin") === "n") {
       this.isAdmin = false;
-      return;
+      await this.restService.getInviteCodeForUser(sessionStorage.getItem("currentUser")).then(res => {
+        this.inviteCode = res;
+        this.needsPlaylistViewUpdateToken = localStorage.getItem(this.inviteCode);
+        return;
+      });
     }
-    if (window.location.search.length > 0 && sessionStorage.getItem("isAdmin") === "y") {
-      await this.handleRedirect();
-      this.stateService.needsViewUpdateToken = new Subject();
-      this.stateService.needsViewUpdateToken.next(UUID.UUID());
-    } else {
-      this.alertService.danger('Bitte loggen Sie sich ein!');
-      this.router.navigate(['/login']);
+    if (sessionStorage.getItem("isAdmin") !== "n") {
+      if (window.location.search.length > 0 && sessionStorage.getItem("isAdmin") === "y") {
+        await this.handleRedirect();
+      } else {
+        this.alertService.danger('Bitte loggen Sie sich ein!');
+        this.router.navigate(['/login']);
+      }
     }
-
   }
 
   async handleRedirect() {
@@ -129,6 +138,7 @@ export class OverviewComponent implements OnInit {
       this.inviteCode = results[0];
       const adminId = results[1].replaceAll('-', '')
       this.stateService.addAdminId(this.currentSessionId, toUUID(adminId));
+      localStorage.setItem(this.inviteCode, UUID.UUID().toString());
       this.restService.getDefaultPlaylist(results[1]).then(res => {
         this.restDefaultPlaylist = res;
         console.log(res);
@@ -153,13 +163,11 @@ export class OverviewComponent implements OnInit {
         const userId = this.stateService.getAdminId(this.currentSessionId);
         await this.restService.getSearchResult(searchString, userId).then(res => {
           this.searchResults = res as Song[];
-          console.log(this.searchResults);
         });
       } else {
         const userId = sessionStorage.getItem("currentUser");
         await this.restService.getSearchResult(searchString, userId).then(res => {
           this.searchResults = res as Song[];
-          console.log(this.searchResults);
         });
       }
       return this.searchResults;
@@ -181,10 +189,9 @@ export class OverviewComponent implements OnInit {
     song.spotifyUri = '1234567890123:7xGfFoTpQ2E7fRF5lN10tr';
     //const song = this.searchResults[0];
     const jsonsong = JSON.stringify(song);
-    console.log(jsonsong);
     await this.restService.addSongToPlaylist(song, userId).then(res => {
       console.log("Song added");
-      this.stateService.needsViewUpdateToken.next(UUID.UUID());
+      localStorage.setItem(this.inviteCode, UUID.UUID().toString());
     });
   }
 
@@ -197,15 +204,16 @@ export class OverviewComponent implements OnInit {
     }
     this.restService.getVotingView(userId).then(res => {
       this.rows = res as VotingView[];
-      console.log(this.rows);
       this.refreshPlayer();
     });
   }
 
   refreshPlayer() {
-    const parsedSpotifyUri = this.parseSongUri(this.rows[0].song.spotifyUri);
-    this.songUrl = this.songUrlBasis1 + parsedSpotifyUri + this.songUrlBasis2;
-    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+    if (this.rows[0]) {
+      const parsedSpotifyUri = this.parseSongUri(this.rows[0].song.spotifyUri);
+      this.songUrl = this.songUrlBasis1 + parsedSpotifyUri + this.songUrlBasis2;
+      this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+    }
   }
 
   parseSongUri(completeUri: string) {
@@ -230,20 +238,19 @@ export class OverviewComponent implements OnInit {
     } else {
       userId = sessionStorage.getItem("currentUser");
     }
-    this.restService.updateSongVoting(event.row.song.id, this.voteSetting.toString());
+    if (this.voteSetting) {
+      this.restService.updateSongVoting(event.row.song.id, this.voteSetting.toString());
     console.log(this.voteSetting);
+    }
   }
 
   async waitForSpotifyWebPlaybackSDKToLoad() {
     return new Promise(resolve => {
-      console.log("IM HERE0");
       if (window.Spotify) {
-        console.log("IM HERE");
         resolve(window.Spotify);
       } else {
         window.onSpotifyWebPlaybackSDKReady = () => {
           resolve(window.Spotify);
-          console.log("IM HERE1");
         };
       }
     });
