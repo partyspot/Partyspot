@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertService } from 'ngx-alerts';
 import { RestService } from 'src/app/rest/restService/restService';
 
 
@@ -13,7 +14,10 @@ export class LoginComponent implements OnInit {
   @ViewChild('guestCode')
   guestCode: ElementRef;
 
-  constructor(private router: Router, private restService: RestService) {
+  @ViewChild('guestName')
+  guestName: ElementRef;
+
+  constructor(private router: Router, private restService: RestService, private alertService: AlertService) {
   }
 
   ngOnInit() { }
@@ -30,12 +34,20 @@ export class LoginComponent implements OnInit {
   }
 
   async guestLogin(): Promise<void> {
-    console.log(this.guestCode.nativeElement.value);
-    await this.restService.guestLogin(this.guestCode.nativeElement.value).then( userId => {
-      sessionStorage.setItem("currentUser", userId);
-      sessionStorage.setItem("isAdmin", "n");
-      this.router.navigate(['/overview']);
-    });
+    if ((this.guestCode.nativeElement.value === '') || (this.guestName.nativeElement.value === '')) {
+      this.alertService.danger('Sie benötigen einen Code und einen Benutzernamen, der mindestens 2 Zeichen lang ist');
+    } else {
+      await this.restService.guestLogin(this.guestCode.nativeElement.value).then(userId => {
+        sessionStorage.setItem("currentUser", userId);
+        sessionStorage.setItem("isAdmin", "n");
+        this.router.navigate(['/overview']);
+      },
+        err => {
+          console.log(err);
+          this.alertService.danger('Ungültiger Zugangscode!');
+        }
+      )
+    }
   }
 
 }
