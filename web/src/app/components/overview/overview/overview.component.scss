@@ -53,8 +53,13 @@ $nth: nth($list, $imgKey);
   margin: 0 1rem;
 }
 
-.search-container {
-  margin: 0.5rem 1rem 0 auto;
+.song-search-container {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.invite-code-container {
+  margin-left: auto;
 }
 
 .main-header {
@@ -101,4 +106,50 @@ $nth: nth($list, $imgKey);
 .song-name {
   padding-left: 1rem;
   font-size: 19px;
+}
+
+/* stylings for song search */
+ul {
+  /* hides the ugly default list-icons */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* styles the closing button for the search */
+.eliminate {
+  color: var(--ion-color-danger);
+  /*absolute positioning to place the icon inside the input field */
+  position: absolute;
+  margin-top: 4px;
+  margin-left: -30px;
+  z-index: 1000;
+}
+
+/*styling for the dropdown-container */
+.filter-select {
+  /* increasing z-index to have the dropdown in front of the other elements */
+  z-index: 1000;
+  /* absolute positioning to place the container below the input */
+  position: absolute;
+  background: var(--ion-color-step-50);
+  overflow-y: auto;
+  max-height: calc(100vh - 170px);
+  max-width: 70%;
+  border-radius: 1rem;
+}
+
+/* styling for each element in the dropdown-list */
+.filter-select-list {
+  padding: 0.3rem 0 0.3rem 1rem;
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  font-size: 1.2rem;
+  box-shadow: 0 0 7.5px var(--ion-color-primary);
+}
+
+/* this styling activates when the user hovers the cursor over the element */
+.filter-select-list:hover {
+  background: var(--ion-color-step-200);
+  cursor: pointer;
 }

@@ -1,5 +1,5 @@
 ///  <reference types="@types/spotify-web-playback-sdk"/>
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from 'src/app/modals/modal/modal.page';
 import { GuestModalPage } from 'src/app/modals/guest-modal/guest-modal.page';
@@ -44,6 +44,9 @@ export class OverviewComponent implements OnInit {
   needsPlaylistViewUpdateToken: string;
   timerSubscription: Subscription;
 
+  @ViewChild('songSearch')
+  songSearch: ElementRef;
+
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
     private stateService: StateService, private alertService: AlertService, private sanitizer: DomSanitizer) {
     this.songUrlBasis1 = 'https://open.spotify.com/embed/track/';
@@ -56,12 +59,12 @@ export class OverviewComponent implements OnInit {
   async ngOnInit() {
     await this.onPageLoad();
     // timer call the function immediately and every 5 seconds 
-    setInterval(()=> {
+    setInterval(() => {
       if (this.needsPlaylistViewUpdateToken !== localStorage.getItem(this.inviteCode)) {
         this.needsPlaylistViewUpdateToken = localStorage.getItem(this.inviteCode);
         this.getVotingView();
       }
-     }, 5000); 
+    }, 5000);
     await this.waitForSpotifyWebPlaybackSDKToLoad();
     let token;
     await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
@@ -170,6 +173,7 @@ export class OverviewComponent implements OnInit {
           this.searchResults = res as Song[];
         });
       }
+      console.log(this.searchResults);
       return this.searchResults;
     }
   }
@@ -240,7 +244,7 @@ export class OverviewComponent implements OnInit {
     }
     if (this.voteSetting) {
       this.restService.updateSongVoting(event.row.song.id, this.voteSetting.toString());
-    console.log(this.voteSetting);
+      console.log(this.voteSetting);
     }
   }
 
@@ -255,5 +259,16 @@ export class OverviewComponent implements OnInit {
       }
     });
   };
+
+  addThisSong(result: any) {
+    console.log(result);
+    this.resetSearch();
+  }
+
+  /* song-search dropdown closes if the searchResults are NULL*/
+  resetSearch() {
+    this.searchResults = null;
+    this.songSearch.nativeElement.value = '';
+  }
 
 }
