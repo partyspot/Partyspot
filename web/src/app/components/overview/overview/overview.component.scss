@@ -51,7 +51,10 @@ $nth: nth($list, $imgKey);
   font-size: 1.5rem;
   padding-top: 0.5rem;
   margin: 0 1rem;
-  display: flex;
+}
+
+.search-container {
+  margin: 0.5rem 1rem 0 auto;
 }
 
 .main-header {

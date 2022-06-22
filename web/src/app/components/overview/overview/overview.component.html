@@ -10,7 +10,6 @@
   <div class="nav">
     <img class="logo" src="/assets/img/logo.png">
     <div class="spacer">
-      <!-- will be removed  if Headline doesn't fit on mobile -->
       <div class="main-header">Partyspot</div>
     </div>
     <div *ngIf="isAdmin" style="display: flex">
@@ -19,24 +18,22 @@
       <i class="fas fa-users" (click)="addSong()" title="Teste Song hinzufügen"></i>
       <i class="fas fa-users" (click)="getSearchResults('Bad')" title="Teste Suche"></i>
       <i class="fas fa-globe" (click)="getVotingView()" title="Teste Suche"></i>
-      <!-- might get implemented in the future
-        function to invite guests with an automated e-mail
-    <i class="fas fa-user-edit" (click)="showGuestModal()" title="Gäste einladen"></i> -->
     </div>
     <i class="fas fa-sign-out-alt" style="color: var(--ion-color-danger); padding-right: 1rem" (click)="logout()"
       title="Ausloggen"></i>
   </div>
-
-  <div *ngIf="isAdmin" class="party-name">
-    <!-- padding-top: 4px aligns the invitecode vertically with the input of the search field -->
-    <div style="padding-top: 4px" title="Code um Gäste einzuladen">{{inviteCode}}</div>
+  <div style="display: flex">
+    <div *ngIf="isAdmin" class="party-name">
+      <!-- padding-top: 4px aligns the invitecode vertically with the input of the search field -->
+      <div style="padding-top: 4px" title="Code um Gäste einzuladen">{{inviteCode}}</div>
+    </div>
+    <div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
     <!-- margin-left: auto aligns the search field to the right -->
-    <div style="margin-left: auto">
+    <div class="search-container">
       <input type="text" id="songSearch" placeholder="Song suchen" name="songSearch"
         (keydown)="getSearchResults(songSearch.value)" #songSearch style="width: 200px">
     </div>
   </div>
-  <div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
   <div class="ps-card">
     <div class="ps-body">
       <iframe style="border-radius:12px" [src]="iframeSrc" width="100%" height="80" frameBorder="0" allowfullscreen=""
