@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { UUID } from "angular2-uuid";
+import { Observable, Subject } from "rxjs";
 
 @Injectable()
 export class StateService {
 
   loggedInAdminIds: Map<UUID, UUID>;
   isLoggedIn: boolean;
+  needsViewUpdateToken: Subject<string>;
 
   public addAdminId(sessionId: UUID, id: UUID) {
     this.initializeStorageValues();

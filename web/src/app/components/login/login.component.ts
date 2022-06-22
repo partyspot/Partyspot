@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     if ((this.guestCode.nativeElement.value === '') || (this.guestName.nativeElement.value === '')) {
       this.alertService.danger('Sie benötigen einen Code und einen Benutzernamen, der mindestens 2 Zeichen lang ist');
     } else {
-      await this.restService.guestLogin(this.guestCode.nativeElement.value).then(userId => {
+      await this.restService.guestLogin(this.guestCode.nativeElement.value, this.guestName.nativeElement.value).then(userId => {
         sessionStorage.setItem("currentUser", userId);
         sessionStorage.setItem("isAdmin", "n");
         this.router.navigate(['/overview']);

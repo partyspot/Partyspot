@@ -14,6 +14,7 @@ import { Song } from 'src/app/rest/DTOModels/Song';
 import { Track } from 'src/app/rest/DTOModels/track';
 import { VotingView } from 'src/app/rest/DTOModels/votingview';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -36,16 +37,25 @@ export class OverviewComponent implements OnInit {
   restDefaultPlaylist;
   rows: VotingView[];
   iframeSrc: SafeUrl;
+  songUrlBasis1: string;
+  songUrlBasis2: string;
+  songUrl: string;
+  voteSetting: number;
 
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
     private stateService: StateService, private alertService: AlertService, private sanitizer: DomSanitizer) {
-      let id = '5YHdRUzLWIJCBv7oSlItvA';
-      let url = 'https://open.spotify.com/embed/track/'+id +'?utm_source=generator&theme=0';
-      this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-     }
+    this.songUrlBasis1 = 'https://open.spotify.com/embed/track/';
+    this.songUrlBasis2 = '?utm_source=generator&theme=0';
+    let id = '5YHdRUzLWIJCBv7oSlItvA';
+    this.songUrl = this.songUrlBasis1 + id + this.songUrlBasis2;
+    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+  }
 
   async ngOnInit() {
     await this.onPageLoad();
+    this.stateService.needsViewUpdateToken.subscribe(() => {
+      this.getVotingView();
+    });
     await this.waitForSpotifyWebPlaybackSDKToLoad();
     let token;
     await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
@@ -95,12 +105,14 @@ export class OverviewComponent implements OnInit {
   }
 
   async onPageLoad() {
-    if (window.location.search.length > 0) {
-      if (sessionStorage.getItem("isAdmin") === "y") {
-        await this.handleRedirect();
-      } else {
-        this.isAdmin = false;
-      }
+    if (sessionStorage.getItem("isAdmin") === "n") {
+      this.isAdmin = false;
+      return;
+    }
+    if (window.location.search.length > 0 && sessionStorage.getItem("isAdmin") === "y") {
+      await this.handleRedirect();
+      this.stateService.needsViewUpdateToken = new Subject();
+      this.stateService.needsViewUpdateToken.next(UUID.UUID());
     } else {
       this.alertService.danger('Bitte loggen Sie sich ein!');
       this.router.navigate(['/login']);
@@ -166,11 +178,13 @@ export class OverviewComponent implements OnInit {
     song.id = UUID.UUID();
     song.genre = null;
     song.name = 'Testsong';
-    song.spotifyUri = '7xGfFoTpQ2E7fRF5lN10tr';
+    song.spotifyUri = '1234567890123:7xGfFoTpQ2E7fRF5lN10tr';
+    //const song = this.searchResults[0];
     const jsonsong = JSON.stringify(song);
     console.log(jsonsong);
     await this.restService.addSongToPlaylist(song, userId).then(res => {
       console.log("Song added");
+      this.stateService.needsViewUpdateToken.next(UUID.UUID());
     });
   }
 
@@ -184,15 +198,40 @@ export class OverviewComponent implements OnInit {
     this.restService.getVotingView(userId).then(res => {
       this.rows = res as VotingView[];
       console.log(this.rows);
+      this.refreshPlayer();
     });
   }
 
+  refreshPlayer() {
+    const parsedSpotifyUri = this.parseSongUri(this.rows[0].song.spotifyUri);
+    this.songUrl = this.songUrlBasis1 + parsedSpotifyUri + this.songUrlBasis2;
+    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+  }
+
+  parseSongUri(completeUri: string) {
+    return completeUri.substring(14);
+  }
+
   upVote() {
+    this.voteSetting = 1;
     console.log("upVote")
   }
 
   downVote() {
+    this.voteSetting = -1;
     console.log("downVote")
+  }
+
+  vote(event) {
+    console.log(event.row.song.id);
+    let userId;
+    if (this.isAdmin) {
+      userId = this.stateService.getAdminId(this.currentSessionId);
+    } else {
+      userId = sessionStorage.getItem("currentUser");
+    }
+    this.restService.updateSongVoting(event.row.song.id, this.voteSetting.toString());
+    console.log(this.voteSetting);
   }
 
   async waitForSpotifyWebPlaybackSDKToLoad() {

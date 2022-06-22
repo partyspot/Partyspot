@@ -95,5 +95,17 @@ public class PartyManagementResource {
 		return Response.ok().entity(votingView).build();
 
 	}
+	
+	
+	@Path("updateVotingView")
+	@POST
+	@Consumes("text/plain")
+	public Response updateVotingView(@QueryParam("songId") String songId, @QueryParam("voteSetting") String voteSetting) throws Exception {
+		//votingService.update...
+		System.out.println(songId.concat(",").concat(voteSetting));
+		return Response.ok().build();
+
+	}
+	
 
 }

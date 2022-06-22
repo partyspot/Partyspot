@@ -43,7 +43,7 @@
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
       <div>
         <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows" [headerHeight]="50"
-          [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}">
+          [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}" (activate)="vote($event)">
           <ngx-datatable-column name="Song" [flexGrow]="5" prop="song.name">
             <ng-template let-value="value" ngx-datatable-cell-template>
               <span class="song-name"> {{ value }} </span>

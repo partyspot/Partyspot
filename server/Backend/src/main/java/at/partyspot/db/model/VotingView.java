@@ -1,7 +1,5 @@
 package at.partyspot.db.model;
 
-import java.util.UUID;
-
 public class VotingView {
 
 	private Song song;

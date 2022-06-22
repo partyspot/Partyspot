@@ -19,8 +19,8 @@ export class RestService {
         return this.http.get('http://localhost:8080/Backend/rest/login/loginWithSpotify', this.options).toPromise();
     }
 
-    async guestLogin(guestCode: string): Promise<string> {
-        return this.http.get('http://localhost:8080/Backend/rest/login/guestLogin?guestCode=' + guestCode, this.options).toPromise();
+    async guestLogin(guestCode: string, guestName: string): Promise<string> {
+        return this.http.get('http://localhost:8080/Backend/rest/login/guestLogin?guestCode=' + guestCode + '&username=' + guestName, this.options).toPromise();
     }
 
     async createNewPartyWithNewCodeAndHostAndGetGuestCode(code: string): Promise<string> {
@@ -45,6 +45,10 @@ export class RestService {
 
     async getVotingView(userId: string) {
         return this.http.get('http://localhost:8080/Backend/rest/party/getVotingView?userId=' + userId).toPromise();
+    }
+
+    async updateSongVoting(songId: string, voteSetting: string) {
+        return this.http.post('http://localhost:8080/Backend/rest/party/updateVotingView?songId=' + songId + '&voteSetting=' + voteSetting, "").toPromise();
     }
 
 }
