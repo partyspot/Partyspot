@@ -39,27 +39,21 @@
   <div *ngIf="!isAdmin" class="party-name">{{partyName}}</div>
   <div class="ps-card">
     <div class="ps-body">
-      <iframe style="border-radius:12px"
-      [src]="iframeSrc" width="50%"
-        height="80" frameBorder="0" allowfullscreen=""
+      <iframe style="border-radius:12px" [src]="iframeSrc" width="50%" height="80" frameBorder="0" allowfullscreen=""
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
       <div>
-        Code anzeigen
         <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows" [headerHeight]="50"
           [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}">
-          <ngx-datatable-column name="Song" [flexGrow]="5">
-            <!-- WORK IN PROGRESS
-            <ng-template let-value="song" ngx-datatable-cell-template>
-              <div style="padding-left: 1rem">{{song}}</div>
-            </ng-template>-->
+          <ngx-datatable-column name="Song" [flexGrow]="5" prop="song.name">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span> {{ value }} </span>
+            </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Voting" [flexGrow]="1" [minWidth]="125">
-            <ng-template let-value="voting" ngx-datatable-cell-template>
-              <div style="display: flex">
-                <i class="fas fa-thumbs-up" (click)="upVote()"></i>
-                <i class="fas fa-thumbs-down" (click)="downVote()" style="color: var(--ion-color-danger)"></i>
-                <div>777</div>
-              </div>
+          <ngx-datatable-column name="Voting" [flexGrow]="1" [minWidth]="125" prop="voting">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <i class="fas fa-thumbs-up" (click)="upVote()"></i>
+              <i class="fas fa-thumbs-down" (click)="downVote()" style="color: var(--ion-color-danger)"></i>
+              <span> {{ value }} </span>
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>
