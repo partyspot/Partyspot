@@ -51,16 +51,17 @@
       </div>
       <div>
         <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows" [headerHeight]="50"
-          [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}" (activate)="vote($event)">
-          <ngx-datatable-column name="Song" [flexGrow]="5" prop="song.name">
+          [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}">
+          <ngx-datatable-column name="Song" [flexGrow]="5" prop="song">
             <ng-template let-value="value" ngx-datatable-cell-template>
-              <span class="song-name"> {{ value }} </span>
+              <span class="song-name"> {{ value.name }} </span>
+              <i class="fas fa-thumbs-up" (click)="upVote(value)"></i>
+              <i class="fas fa-thumbs-down" (click)="downVote(value)" style="color: var(--ion-color-danger)"></i>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column name="Voting" [flexGrow]="1" [minWidth]="125" prop="voting">
             <ng-template let-value="value" ngx-datatable-cell-template>
-              <i class="fas fa-thumbs-up" (click)="upVote()"></i>
-              <i class="fas fa-thumbs-down" (click)="downVote()" style="color: var(--ion-color-danger)"></i>
+              
               <span style="font-size: 19px"
                 [ngStyle]="{'color': value > 0 ? 'var(--ion-color-success)' : 'var(--ion-color-danger)' }">
                 {{ value }}

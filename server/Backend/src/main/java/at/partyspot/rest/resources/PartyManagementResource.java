@@ -100,9 +100,8 @@ public class PartyManagementResource {
 	@Path("updateVotingView")
 	@POST
 	@Consumes("text/plain")
-	public Response updateVotingView(@QueryParam("songId") String songId, @QueryParam("voteSetting") String voteSetting) throws Exception {
-		//votingService.update...
-		System.out.println(songId.concat(",").concat(voteSetting));
+	public Response updateVotingView(@QueryParam("songId") String songId, @QueryParam("userId") String userId, @QueryParam("voteSetting") String voteSetting) throws Exception {
+		votingService.updateVoting(UUID.fromString(songId), UUID.fromString(userId), Integer.parseInt(voteSetting));
 		return Response.ok().build();
 
 	}

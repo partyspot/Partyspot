@@ -47,8 +47,8 @@ export class RestService {
         return this.http.get('http://localhost:8080/Backend/rest/party/getVotingView?userId=' + userId).toPromise();
     }
 
-    async updateSongVoting(songId: string, voteSetting: string) {
-        return this.http.post('http://localhost:8080/Backend/rest/party/updateVotingView?songId=' + songId + '&voteSetting=' + voteSetting, "").toPromise();
+    async updateSongVoting(songId: string, userId: string, voteSetting: string) {
+        return this.http.post('http://localhost:8080/Backend/rest/party/updateVotingView?songId=' + songId + '&userId=' + userId + '&voteSetting=' + voteSetting, "").toPromise();
     }
 
     async getInviteCodeForUser(userId: string) {
