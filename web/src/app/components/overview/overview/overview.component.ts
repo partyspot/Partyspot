@@ -178,7 +178,7 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  async addSong() {
+  async addSong(song: Song) {
     let userId;
     if (this.isAdmin) {
       userId = this.stateService.getAdminId(this.currentSessionId);
@@ -186,11 +186,11 @@ export class OverviewComponent implements OnInit {
       userId = sessionStorage.getItem("currentUser");
     }
     // create song for testing
-    let song: Song = { id: null, genre: null, name: null, spotifyUri: null };
-    song.id = UUID.UUID();
-    song.genre = null;
-    song.name = 'Testsong';
-    song.spotifyUri = '1234567890123:7xGfFoTpQ2E7fRF5lN10tr';
+    //let song: Song = { id: null, genre: null, name: null, spotifyUri: null };
+    //song.id = UUID.UUID();
+    //song.genre = null;
+    //song.name = 'Testsong';
+    //song.spotifyUri = '1234567890123:7xGfFoTpQ2E7fRF5lN10tr';
     //const song = this.searchResults[0];
     const jsonsong = JSON.stringify(song);
     await this.restService.addSongToPlaylist(song, userId).then(res => {
@@ -224,27 +224,31 @@ export class OverviewComponent implements OnInit {
     return completeUri.substring(14);
   }
 
-  upVote() {
+  upVote(value) {
     this.voteSetting = 1;
     console.log("upVote")
+    this.vote(value);
   }
 
-  downVote() {
+  downVote(value) {
     this.voteSetting = -1;
     console.log("downVote")
+    this.vote(value);
   }
 
-  vote(event) {
-    console.log(event.row.song.id);
+  async vote(value) {
+    console.log(value.id);
     let userId;
     if (this.isAdmin) {
       userId = this.stateService.getAdminId(this.currentSessionId);
     } else {
       userId = sessionStorage.getItem("currentUser");
     }
+    console.log(userId);
     if (this.voteSetting) {
-      this.restService.updateSongVoting(event.row.song.id, this.voteSetting.toString());
-      console.log(this.voteSetting);
+      await this.restService.updateSongVoting(value.id, userId, this.voteSetting.toString()).then(res => {
+        localStorage.setItem(this.inviteCode, UUID.UUID().toString());
+      });
     }
   }
 
@@ -260,8 +264,9 @@ export class OverviewComponent implements OnInit {
     });
   };
 
-  addThisSong(result: any) {
+  addThisSong(result: Song) {
     console.log(result);
+    this.addSong(result);
     this.resetSearch();
   }
 
