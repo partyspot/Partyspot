@@ -22,31 +22,35 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
+  /* login for Host (admin) - works with the Spotify-API */
   async redirectToSpotify(): Promise<void> {
     let redirectURI = '';
     await this.restService.adminLogin().then(res => {
       redirectURI = res;
     });
-    console.log(redirectURI);
     sessionStorage.setItem("isAdmin", "y");
     window.location.href = redirectURI;
-
   }
 
   async guestLogin(): Promise<void> {
+    /* check if the user made any inputs at all */
     if ((this.guestCode.nativeElement.value === '') || (this.guestName.nativeElement.value === '')) {
-      this.alertService.danger('Sie benötigen einen Code und einen Benutzernamen, der mindestens 2 Zeichen lang ist');
+      /* display the alert message if an input is missing */
+      this.alertService.danger('Sie benötigen einen Code und einen Benutzernamen');
     } else {
-      await this.restService.guestLogin(this.guestCode.nativeElement.value, this.guestName.nativeElement.value).then(userId => {
-        sessionStorage.setItem("currentUser", userId);
-        sessionStorage.setItem("isAdmin", "n");
-        this.router.navigate(['/overview']);
-      },
-        err => {
-          console.log(err);
-          this.alertService.danger('Ungültiger Zugangscode!');
-        }
-      )
+      /* else activates if the code is valid and a username has been chosen */
+      /* login with code and username and redirect to overview, set role to guest (isAdmin, n) */
+      await this.restService.guestLogin(this.guestCode.nativeElement.value,
+        this.guestName.nativeElement.value).then(userId => {
+          sessionStorage.setItem("currentUser", userId);
+          sessionStorage.setItem("isAdmin", "n");
+          this.router.navigate(['/overview']);
+        },
+          err => {
+            /* notify the user that the login has failed */
+            this.alertService.danger('Ungültiger Zugangscode!');
+          }
+        )
     }
   }
 
