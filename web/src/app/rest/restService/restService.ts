@@ -19,8 +19,13 @@ export class RestService {
         if (window.location.hostname === 'localhost') {
             this.root = 'http://localhost:8080/Backend/';
             } else {
-            this.root = window.location.origin + '/Backend/';
+            this.root = this.replaceBaseURL(window.location.origin) + '/Backend/';
             }
+    }
+
+    replaceBaseURL(origin: string) {
+        const parts = origin.split(":");
+        return parts[0].concat(":").concat(parts[1]).concat(":").concat("8080");
     }
 
     async adminLogin(): Promise<string> {
