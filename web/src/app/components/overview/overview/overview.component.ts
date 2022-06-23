@@ -64,7 +64,7 @@ export class OverviewComponent implements OnInit {
         this.needsPlaylistViewUpdateToken = localStorage.getItem(this.inviteCode);
         this.getVotingView();
       }
-    }, 5000);
+    }, 1000);
     await this.waitForSpotifyWebPlaybackSDKToLoad();
     let token;
     await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
@@ -274,6 +274,10 @@ export class OverviewComponent implements OnInit {
   resetSearch() {
     this.searchResults = null;
     this.songSearch.nativeElement.value = '';
+  }
+
+  skipSong() {
+    this.restService.deleteSong(this.rows[0].song.id.toString());
   }
 
 }

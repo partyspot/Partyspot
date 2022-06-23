@@ -55,4 +55,8 @@ export class RestService {
         return this.http.get('http://localhost:8080/Backend/rest/party/getInviteCodeForUser?userId=' + userId, this.options).toPromise();
     }
 
+    async deleteSong(songId: string) {
+        return this.http.get('http://localhost:8080/Backend/rest/party/deleteSong?songId=' + songId, this.options).toPromise();
+    }
+
 }

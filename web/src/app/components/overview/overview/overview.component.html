@@ -48,6 +48,7 @@
       <div *ngIf="isAdmin">
         <iframe style="border-radius:12px" [src]="iframeSrc" width="100%" height="80" frameBorder="0" allowfullscreen=""
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+          <i class="fas fa-forward" (click)="skipSong()" title="Skip Song"></i>
       </div>
       <div>
         <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows" [headerHeight]="50"

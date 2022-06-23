@@ -117,5 +117,15 @@ public class PartyManagementResource {
 
 	}
 	
+	
+	@Path("deleteSong")
+	@GET
+	@Consumes("text/plain")
+	public Response deleteSong(@QueryParam("songId") String songId) throws Exception {
+		songService.deleteSong(UUID.fromString(songId));
+		return Response.ok().build();
+
+	}
+	
 
 }

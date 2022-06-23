@@ -57,7 +57,7 @@ public class SpotifyAPI {
 		spotifyTracks.forEach(track -> {
 			Song singleSong = new Song();
 			singleSong.setId(UUID.randomUUID());
-			singleSong.setName(track.getName());
+			singleSong.setName(track.getName().concat("  -  ").concat(track.getArtists()[0].getName()));
 			singleSong.setSpotifyUri(track.getUri());
 			foundSongs.add(singleSong);
 		});
