@@ -59,4 +59,8 @@ export class RestService {
         return this.http.get('http://localhost:8080/Backend/rest/party/deleteSong?songId=' + songId, this.options).toPromise();
     }
 
+    async getSongPlaybackTime(songUri: string, userId: string) {
+        return this.http.get('http://localhost:8080/Backend/rest/db/getSongPlaybackTime?spotifyUri=' + songUri + '&userId=' + userId, this.options).toPromise();
+    }
+
 }
