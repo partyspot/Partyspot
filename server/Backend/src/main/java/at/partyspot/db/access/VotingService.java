@@ -40,5 +40,16 @@ public class VotingService {
 		conn.close();
 		return voting;
 	}
+	
+	public void updateVoting(UUID songId, UUID userId, int voting) throws Exception {
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL updateVoting(?, ?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, songId.toString());
+		statement.setString(2, userId.toString());
+		statement.setInt(3, voting);
+		statement.executeQuery();
+		conn.close();
+	}
 
 }

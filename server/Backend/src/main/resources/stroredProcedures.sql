@@ -242,4 +242,16 @@ END //
 DELIMITER ;
 
 
+-- update Voting
+
+DELIMITER //
+CREATE PROCEDURE updateVoting(IN songId VARCHAR(36), IN userId VARCHAR(36), IN votingNumber INT)
+BEGIN
+    update user__song set voting = votingNumber where user_id = uuid_to_bin(userId)
+	and song_id = uuid_to_bin(songId);
+END //
+    
+DELIMITER ;
+
+
 
