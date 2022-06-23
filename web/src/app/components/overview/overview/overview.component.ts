@@ -276,8 +276,10 @@ export class OverviewComponent implements OnInit {
     this.songSearch.nativeElement.value = '';
   }
 
-  skipSong() {
-    this.restService.deleteSong(this.rows[0].song.id.toString());
+  async skipSong() {
+    await this.restService.deleteSong(this.rows[0].song.id.toString()).then(res => {
+      localStorage.setItem(this.inviteCode, UUID.UUID().toString());
+    });
   }
 
 }
