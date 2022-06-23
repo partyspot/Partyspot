@@ -254,4 +254,15 @@ END //
 DELIMITER ;
 
 
+-- delete Song
+DELIMITER //
+CREATE PROCEDURE deleteSong(IN songId VARCHAR(36))
+BEGIN
+    delete from user__song where song_id = uuid_to_bin(songId);
+    delete from song__playlist where song_id = uuid_to_bin(songId);
+    delete from song where id = uuid_to_bin(songId);
+END //
+    
+DELIMITER ;
+
 
