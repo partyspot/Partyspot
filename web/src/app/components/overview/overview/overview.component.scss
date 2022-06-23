@@ -153,3 +153,24 @@ ul {
   background: var(--ion-color-step-200);
   cursor: pointer;
 }
+
+.skip-icon {
+  padding: 0 0 0 1rem;
+  font-size: 2.5rem;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}
+
+.vote-buttons-container {
+  display: flex;
+}
+
+.vote-number-container {
+  text-align-last: center;
+  line-height: normal;
+}
+
+.voting-number-text {
+  font-size: 28px;
+  font-weight: bold;
+}
