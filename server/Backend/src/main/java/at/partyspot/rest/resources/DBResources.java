@@ -50,4 +50,15 @@ public class DBResources {
 		return Response.ok().entity(playlist).build();
 
 	}
+	
+	
+	@Path("getSongPlaybackTime")
+	@GET
+	@Consumes("text/plain")
+	@Produces("text/plain")
+	public Response getSongPlaybackTime(@QueryParam("spotifyUri") String spotifyUri, @QueryParam("userId") String userId) throws Exception {
+		int duration = spotifyAPIService.getSongPlaybackTime(spotifyUri, userId);
+		return Response.ok().entity(duration).build();
+
+	}
 }

@@ -18,9 +18,9 @@ export class RestService {
 
         if (window.location.hostname === 'localhost') {
             this.root = 'http://localhost:8080/Backend/';
-          } else {
+            } else {
             this.root = window.location.origin + '/Backend/';
-          }
+            }
     }
 
     async adminLogin(): Promise<string> {
@@ -55,12 +55,20 @@ export class RestService {
         return this.http.get(this.root + 'rest/party/getVotingView?userId=' + userId).toPromise();
     }
 
-    async updateSongVoting(songId: string, voteSetting: string) {
-        return this.http.post(this.root + 'rest/party/updateVotingView?songId=' + songId + '&voteSetting=' + voteSetting, "").toPromise();
+    async updateSongVoting(songId: string, userId: string, voteSetting: string) {
+        return this.http.post(this.root + 'rest/party/updateVotingView?songId=' + songId + '&userId=' + userId + '&voteSetting=' + voteSetting, "").toPromise();
     }
 
     async getInviteCodeForUser(userId: string) {
         return this.http.get(this.root + 'rest/party/getInviteCodeForUser?userId=' + userId, this.options).toPromise();
+    }
+
+    async deleteSong(songId: string) {
+        return this.http.get(this.root + 'rest/party/deleteSong?songId=' + songId, this.options).toPromise();
+    }
+
+    async getSongPlaybackTime(songUri: string, userId: string) {
+        return this.http.get(this.root + 'rest/db/getSongPlaybackTime?spotifyUri=' + songUri + '&userId=' + userId, this.options).toPromise();
     }
 
 }

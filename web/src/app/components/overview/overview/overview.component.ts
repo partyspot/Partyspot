@@ -50,10 +50,17 @@ export class OverviewComponent implements OnInit {
   constructor(public modalCtrl: ModalController, private router: Router, private restService: RestService,
     private stateService: StateService, private alertService: AlertService, private sanitizer: DomSanitizer) {
     this.songUrlBasis1 = 'https://open.spotify.com/embed/track/';
-    this.songUrlBasis2 = '?utm_source=generator&theme=0';
-    let id = '5YHdRUzLWIJCBv7oSlItvA';
+    this.songUrlBasis2 = '?utm_source=generator&theme=0&autoplay=1&muted=0&autopause=0';
+    let id = '3jBLKVqnOcxeXaqdGZ0p45';
     this.songUrl = this.songUrlBasis1 + id + this.songUrlBasis2;
     this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+    window.addEventListener("blur", () => {
+      setTimeout(() => {
+        if (document.activeElement.tagName === "IFRAME") {
+          console.log("clicked");
+        }
+      });
+    }, { once: false });
   }
 
   async ngOnInit() {
@@ -64,7 +71,7 @@ export class OverviewComponent implements OnInit {
         this.needsPlaylistViewUpdateToken = localStorage.getItem(this.inviteCode);
         this.getVotingView();
       }
-    }, 5000);
+    }, 1000);
     await this.waitForSpotifyWebPlaybackSDKToLoad();
     let token;
     await this.restService.getTokenWithPartyCode(this.inviteCode).then(res => {
@@ -118,6 +125,7 @@ export class OverviewComponent implements OnInit {
       this.isAdmin = false;
       await this.restService.getInviteCodeForUser(sessionStorage.getItem("currentUser")).then(res => {
         this.inviteCode = res;
+        this.getVotingView();
         this.needsPlaylistViewUpdateToken = localStorage.getItem(this.inviteCode);
         return;
       });
@@ -224,27 +232,31 @@ export class OverviewComponent implements OnInit {
     return completeUri.substring(14);
   }
 
-  upVote() {
+  upVote(value) {
     this.voteSetting = 1;
     console.log("upVote")
+    this.vote(value);
   }
 
-  downVote() {
+  downVote(value) {
     this.voteSetting = -1;
     console.log("downVote")
+    this.vote(value);
   }
 
-  vote(event) {
-    console.log(event.row.song.id);
+  async vote(value) {
+    console.log(value.id);
     let userId;
     if (this.isAdmin) {
       userId = this.stateService.getAdminId(this.currentSessionId);
     } else {
       userId = sessionStorage.getItem("currentUser");
     }
+    console.log(userId);
     if (this.voteSetting) {
-      this.restService.updateSongVoting(event.row.song.id, this.voteSetting.toString());
-      console.log(this.voteSetting);
+      await this.restService.updateSongVoting(value.id, userId, this.voteSetting.toString()).then(res => {
+        localStorage.setItem(this.inviteCode, UUID.UUID().toString());
+      });
     }
   }
 
@@ -271,5 +283,12 @@ export class OverviewComponent implements OnInit {
     this.searchResults = null;
     this.songSearch.nativeElement.value = '';
   }
+
+  async skipSong() {
+    await this.restService.deleteSong(this.rows[0].song.id.toString()).then(res => {
+      localStorage.setItem(this.inviteCode, UUID.UUID().toString());
+    });
+  }
+
 
 }

@@ -1,5 +1,6 @@
 <div class="login">
   <div class="logo-container" style="padding-top: 2rem">
+    <!-- class col-50 is used to split the elements into 2 columns -->
     <div class="headline col-50">Partyspot</div>
     <img class="logo col-50" src="/assets/img/logo.png">
   </div>
@@ -17,6 +18,7 @@
         <div class="input-container" style="padding-left: 1rem;">
           <h1>Login für Gäste</h1>
           <div class="form-header">Benutzername</div>
+          <!-- #guestName is needed to make the ElementRef work  -->
           <input type="text" id="guestName" name="guestName" #guestName>
           <div class="form-header">Zugangscode</div>
           <input type="text" id="guestCode" name="guestCode" #guestCode>

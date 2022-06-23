@@ -100,9 +100,8 @@ public class PartyManagementResource {
 	@Path("updateVotingView")
 	@POST
 	@Consumes("text/plain")
-	public Response updateVotingView(@QueryParam("songId") String songId, @QueryParam("voteSetting") String voteSetting) throws Exception {
-		//votingService.update...
-		System.out.println(songId.concat(",").concat(voteSetting));
+	public Response updateVotingView(@QueryParam("songId") String songId, @QueryParam("userId") String userId, @QueryParam("voteSetting") String voteSetting) throws Exception {
+		votingService.updateVoting(UUID.fromString(songId), UUID.fromString(userId), Integer.parseInt(voteSetting));
 		return Response.ok().build();
 
 	}
@@ -115,6 +114,16 @@ public class PartyManagementResource {
 		User user = userService.getUser(UUID.fromString(userId));
 		String partycode = user.getParty().getCode();
 		return Response.ok().entity(partycode).build();
+
+	}
+	
+	
+	@Path("deleteSong")
+	@GET
+	@Consumes("text/plain")
+	public Response deleteSong(@QueryParam("songId") String songId) throws Exception {
+		songService.deleteSong(UUID.fromString(songId));
+		return Response.ok().build();
 
 	}
 	

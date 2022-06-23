@@ -106,6 +106,10 @@ $nth: nth($list, $imgKey);
 .song-name {
   padding-left: 1rem;
   font-size: 19px;
+  /* prevents long song names from overflowing the datatable */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* stylings for song search */
@@ -132,7 +136,7 @@ ul {
   z-index: 1000;
   /* absolute positioning to place the container below the input */
   position: absolute;
-  background: var(--ion-color-step-50);
+  background: var(--ion-color-step-100);
   overflow-y: auto;
   max-height: calc(100vh - 170px);
   max-width: 70%;
@@ -152,4 +156,25 @@ ul {
 .filter-select-list:hover {
   background: var(--ion-color-step-200);
   cursor: pointer;
+}
+
+.skip-icon {
+  padding: 0 0 0 1rem;
+  font-size: 2.5rem;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}
+
+.vote-buttons-container {
+  display: flex;
+}
+
+.vote-number-container {
+  text-align-last: center;
+  line-height: normal;
+}
+
+.voting-number-text {
+  font-size: 28px;
+  font-weight: bold;
 }

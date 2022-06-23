@@ -7,6 +7,21 @@
     };
 
   </script>
+
+<script>
+  function autoplay() {
+      var t = setTimeout(function(){
+          var button = document.querySelector('[title="Play"]') || false;
+          if (button) {
+              console.log('Click', button)
+              button.click()
+          }
+      }, 999)
+  }
+  document.addEventListener('DOMContentLoaded', (event) => {
+      autoplay()
+  })
+</script>
   <div class="nav">
     <img class="logo" src="/assets/img/logo.png">
     <div class="spacer">
@@ -45,27 +60,31 @@
   </div>
   <div class="ps-card">
     <div class="ps-body">
-      <div *ngIf="isAdmin">
+      <div *ngIf="isAdmin" style="display: flex">
         <iframe style="border-radius:12px" [src]="iframeSrc" width="100%" height="80" frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-        </iframe>
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" #IFRAME></iframe>
+        <i class="fas fa-forward skip-icon" (click)="skipSong()" title="Song überspringen"></i>
       </div>
       <div>
         <ngx-datatable class="material" [columnMode]="'flex'" [rows]="rows" [headerHeight]="50"
-          [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}" (activate)="vote($event)">
-          <ngx-datatable-column name="Song" [flexGrow]="5" prop="song.name">
+          [messages]="{emptyMessage: 'Keine Songs in der Playlist gefunden!'}">
+          <ngx-datatable-column name="Song" [flexGrow]="500" prop="song">
             <ng-template let-value="value" ngx-datatable-cell-template>
-              <span class="song-name"> {{ value }} </span>
+              <div class="vote-buttons-container">
+                <span class="song-name"> {{ value.name }} </span>
+                <i class="fas fa-thumbs-up" (click)="upVote(value)" style="margin-left: auto"></i>
+                <i class="fas fa-thumbs-down" (click)="downVote(value)" style="color: var(--ion-color-danger)"></i>
+              </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Voting" [flexGrow]="1" [minWidth]="125" prop="voting">
+          <ngx-datatable-column name="Voting" [flexGrow]="1" [minWidth]="100" prop="voting">
             <ng-template let-value="value" ngx-datatable-cell-template>
-              <i class="fas fa-thumbs-up" (click)="upVote()"></i>
-              <i class="fas fa-thumbs-down" (click)="downVote()" style="color: var(--ion-color-danger)"></i>
-              <span style="font-size: 19px"
-                [ngStyle]="{'color': value > 0 ? 'var(--ion-color-success)' : 'var(--ion-color-danger)' }">
-                {{ value }}
-              </span>
+              <div class="vote-number-container">
+                <span class="voting-number-text"
+                  [ngStyle]="{'color': value > 0 ? 'var(--ion-color-success)' : 'var(--ion-color-danger)' }">
+                  {{ value }}
+                </span>
+              </div>
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>

@@ -57,7 +57,7 @@ public class SpotifyAPI {
 		spotifyTracks.forEach(track -> {
 			Song singleSong = new Song();
 			singleSong.setId(UUID.randomUUID());
-			singleSong.setName(track.getName());
+			singleSong.setName(track.getName().concat("  -  ").concat(track.getArtists()[0].getName()));
 			singleSong.setSpotifyUri(track.getUri());
 			foundSongs.add(singleSong);
 		});
@@ -65,13 +65,14 @@ public class SpotifyAPI {
 		return foundSongs;
 	}
 	
-	public Track getSong(String spotifyURI, String userIdString) throws Exception {
+	public int getSongPlaybackTime(String spotifyURI, String userIdString) throws Exception {
 		UUID userID = UUID.fromString(userIdString);
 		User user = userService.getUser(userID);
 		Party party = user.getParty();
 		String accessToken = party.getToken();
 		SpotifyApi spotifyApi = new SpotifyApi.Builder()
 			    .setAccessToken(accessToken).build();
-		return spotifyApi.getTrack(spotifyURI).build().execute();
+		int playbackTime = spotifyApi.getTrack(spotifyURI).build().execute().getDurationMs();
+		return playbackTime;
 	}
 }
