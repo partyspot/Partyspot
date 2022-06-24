@@ -1,12 +1,22 @@
-/* variables to pick a random image as background */
+/* pick a random image as background */
 $imgKey: random(5);
 
+/* all pictures need to be in the same format (.png, .jpg) */
 $list: party1,
 party2,
 party3,
 party4,
 party5;
 $nth: nth($list, $imgKey);
+
+/* overwrite global ps-card styling and include the random background */
+.ps-card {
+  height: calc(100vh - 128px);
+  margin-left: 2rem;
+  /* use the previously set $nth variable to set the background*/
+  background-image: url("/assets/img/#{$nth}.jpg");
+  background-size: cover;
+}
 
 .nav {
   background-color: var(--ion-color-step-50);
@@ -37,14 +47,6 @@ $nth: nth($list, $imgKey);
   color: var(--ion-color-primary);
   padding-right: 1rem;
   cursor: pointer;
-}
-
-/* overwrite global ps-card styling and include the random background */
-.ps-card {
-  height: calc(100vh - 128px);
-  margin-left: 2rem;
-  background-image: url("/assets/img/#{$nth}.jpg");
-  background-size: cover;
 }
 
 .party-name {

@@ -8,20 +8,21 @@
 
   </script>
 
-<script>
-  function autoplay() {
-      var t = setTimeout(function(){
-          var button = document.querySelector('[title="Play"]') || false;
-          if (button) {
-              console.log('Click', button)
-              button.click()
-          }
+  <script>
+    function autoplay() {
+      var t = setTimeout(function () {
+        var button = document.querySelector('[title="Play"]') || false;
+        if (button) {
+          console.log('Click', button)
+          button.click()
+        }
       }, 999)
-  }
-  document.addEventListener('DOMContentLoaded', (event) => {
+    }
+    document.addEventListener('DOMContentLoaded', (event) => {
       autoplay()
-  })
-</script>
+    })
+
+  </script>
   <div class="nav">
     <img class="logo" src="/assets/img/logo.png">
     <div class="spacer">
@@ -38,9 +39,12 @@
     <div class="song-search-container">
       <input type="text" id="songSearch" placeholder="Song suchen" name="songSearch"
         (keydown)="getSearchResults(songSearch.value)" #songSearch>
+      <!-- if the search is active an Icon is displayed to cancel the search -->
       <i *ngIf="searchResults" class="fas fa-times-circle eliminate" (click)="resetSearch()"></i>
+      <!-- classic dropdown list with the search results -->
       <ul *ngIf="searchResults" class="filter-select" (clickOutside)="resetSearch()">
         <div *ngFor="let result of searchResults">
+          <!-- single result with click function to add it to the playlist -->
           <li class="filter-select-list" (click)="addThisSong(result)">
             <div class="filter-result">{{result.name}}</div>
           </li>

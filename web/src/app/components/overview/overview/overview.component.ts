@@ -182,7 +182,9 @@ export class OverviewComponent implements OnInit {
     return code;
   }
 
-  // triggers the spotify search in backend and returns the search results that spotify delivers converted to Song-Objects, used in Frontend
+  // triggers the spotify search in backend and returns the search results
+  // that spotify delivers converted to Song-Objects, used in Frontend
+  // it makes a difference if an admin or a guest is searching for a song
   async getSearchResults(searchString: string) {
     if (searchString.length > 2) {
       if (this.isAdmin) {
