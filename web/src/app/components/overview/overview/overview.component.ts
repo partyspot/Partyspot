@@ -44,6 +44,7 @@ export class OverviewComponent implements OnInit {
   needsPlaylistViewUpdateToken: string;
   timerSubscription: Subscription;
   duration: number;
+  currentSong: Song;
 
   @ViewChild('songSearch')
   songSearch: ElementRef;
@@ -57,7 +58,8 @@ export class OverviewComponent implements OnInit {
     // we set a default song for initializing the page
     let id = '3jBLKVqnOcxeXaqdGZ0p45';
     this.songUrl = this.songUrlBasis1 + id + this.songUrlBasis2;
-    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+    //this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl('');
     // this is an attempt at controlling the player to enable autoplay
     window.addEventListener("blur", () => {
       setTimeout(() => {
@@ -234,17 +236,29 @@ export class OverviewComponent implements OnInit {
     }
     this.restService.getVotingView(userId).then(res => {
       this.rows = res as VotingView[];
-      this.refreshPlayer();
     });
   }
 
   // resetting the player to select the first element of the playlist, after playing the song that song is removed from playlist,
   // therefore it only needs to select the first element
-  refreshPlayer() {
+  async refreshPlayer() {
     if (this.rows[0]) {
       const parsedSpotifyUri = this.parseSongUri(this.rows[0].song.spotifyUri);
       this.songUrl = this.songUrlBasis1 + parsedSpotifyUri + this.songUrlBasis2;
       this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+      let userId;
+      if (this.isAdmin) {
+        userId = this.stateService.getAdminId(this.currentSessionId);
+      } else {
+        userId = sessionStorage.getItem("currentUser");
+      }
+      await this.restService.getSongPlaybackTime(this.parseSongUri(this.rows[0].song.spotifyUri), userId).then(res => {
+        this.duration = Number(res);
+      });
+      this.restService.deleteSong(this.rows[0].song.id.toString()).then(() => {
+        localStorage.setItem(this.inviteCode, UUID.UUID().toString());
+      });
+      //this.setTimer();
     }
   }
 
@@ -310,9 +324,10 @@ export class OverviewComponent implements OnInit {
 
   // the function used after playback of song has finished or admin wants to skip the song, thus the next song is played on the playlist
   async skipSong() {
-    await this.restService.deleteSong(this.rows[0].song.id.toString()).then(res => {
-      localStorage.setItem(this.inviteCode, UUID.UUID().toString());
-    });
+    localStorage.setItem(this.inviteCode, UUID.UUID().toString());
+    setTimeout(() => {
+      this.refreshPlayer();
+    }, 2000);
   }
 
   async setTimer() {
@@ -323,10 +338,8 @@ export class OverviewComponent implements OnInit {
       userId = sessionStorage.getItem("currentUser");
     }
     if (this.rows[0]) {
-      await this.restService.getSongPlaybackTime(this.parseSongUri(this.rows[0].song.spotifyUri) , userId).then(res => {
-        this.duration = 20000;
-      });
       console.log("Timer set");
+      console.log(this.duration);
       setTimeout(() => {
         this.duration = 0;
         this.skipSong();
