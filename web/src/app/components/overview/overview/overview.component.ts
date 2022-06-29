@@ -43,6 +43,7 @@ export class OverviewComponent implements OnInit {
   voteSetting: number;
   needsPlaylistViewUpdateToken: string;
   timerSubscription: Subscription;
+  duration: number;
 
   @ViewChild('songSearch')
   songSearch: ElementRef;
@@ -78,6 +79,7 @@ export class OverviewComponent implements OnInit {
         this.getVotingView();
       }
     }, 1000);
+    this.duration = 0;
     // the following is connected to the attempt of enabling autoplay of the player
     await this.waitForSpotifyWebPlaybackSDKToLoad();
     let token;
@@ -311,6 +313,25 @@ export class OverviewComponent implements OnInit {
     await this.restService.deleteSong(this.rows[0].song.id.toString()).then(res => {
       localStorage.setItem(this.inviteCode, UUID.UUID().toString());
     });
+  }
+
+  async setTimer() {
+    let userId;
+    if (this.isAdmin) {
+      userId = this.stateService.getAdminId(this.currentSessionId);
+    } else {
+      userId = sessionStorage.getItem("currentUser");
+    }
+    if (this.rows[0]) {
+      await this.restService.getSongPlaybackTime(this.parseSongUri(this.rows[0].song.spotifyUri) , userId).then(res => {
+        this.duration = 20000;
+      });
+      console.log("Timer set");
+      setTimeout(() => {
+        this.duration = 0;
+        this.skipSong();
+      }, this.duration);
+    }
   }
 
 
