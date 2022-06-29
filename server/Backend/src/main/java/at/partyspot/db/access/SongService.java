@@ -98,5 +98,39 @@ public class SongService {
 		statement.executeQuery();
 		conn.close();	
 	}
+	
+	public boolean isSongInPlaylist(String uri, UUID playlistId) throws Exception {
+		boolean isAdded = false;
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL getSongBySpotifyUri(?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, uri);
+		statement.setString(2, playlistId.toString());
+		ResultSet resultSet = statement.executeQuery();
+		if (resultSet.next() == true) {
+			isAdded = true;
+		}
+		conn.close();
+		return isAdded;
+	}
+	
+	public Song getSongByUri(String uri, UUID playlistId) throws Exception {
+		Song song = new Song();
+		Connection conn = databaseService.createConnection();
+		String query = "{CALL getSongBySpotifyUri(?, ?)}";
+		CallableStatement statement = conn.prepareCall(query);
+		statement.setString(1, uri);
+		statement.setString(2, playlistId.toString());
+		ResultSet resultSet = statement.executeQuery();
+		if (resultSet.next()) {
+			UUID uuid = UUID.fromString(resultSet.getString("id"));
+			song.setId(uuid);
+			song.setName(resultSet.getString("name"));
+			song.setSpotifyUri(resultSet.getString("spotify_uri"));
+			song.setGenre(resultSet.getString("genre"));
+		}
+		conn.close();
+		return song;
+	}
 
 }

@@ -68,7 +68,13 @@ public class PartyManagementResource {
 		Song song = new ObjectMapper().readValue(songJson, Song.class);
 		User user = userService.getUser(UUID.fromString(userID));
 		Playlist playlist = playlistService.getPlaylistByPartyId(user.getParty().getId());
-		songService.addSong(song, playlist.getId(), user);
+		if(!songService.isSongInPlaylist(song.getSpotifyUri(), playlist.getId())) {
+			songService.addSong(song, playlist.getId(), user);
+		} else {
+			Song storedSong = songService.getSongByUri(song.getSpotifyUri(), playlist.getId());
+			votingService.updateVoting(storedSong.getId(), user.getId(), 1);
+		}
+		
 		return Response.ok().build();
 
 	}

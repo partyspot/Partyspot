@@ -266,3 +266,16 @@ END //
 DELIMITER ;
 
 
+-- getSongByItsURI
+DELIMITER //
+CREATE PROCEDURE getSongBySpotifyUri(IN songUri VARCHAR(255), IN playlistId VARCHAR(36))
+BEGIN
+    select bin_to_uuid(s.id) as id, s.name as name, s.spotify_uri as spotify_uri, s.genre as genre from song__playlist sp, song s
+where s.id = sp.song_id
+and s.spotify_uri = songUri
+and playlist_id = UUID_TO_BIN(playlistId);
+END //
+
+DELIMITER ;
+
+
