@@ -58,8 +58,8 @@ export class OverviewComponent implements OnInit {
     // we set a default song for initializing the page
     let id = '3jBLKVqnOcxeXaqdGZ0p45';
     this.songUrl = this.songUrlBasis1 + id + this.songUrlBasis2;
-    //this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
-    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl('');
+    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.songUrl);
+    //this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl('');
     // this is an attempt at controlling the player to enable autoplay
     window.addEventListener("blur", () => {
       setTimeout(() => {
